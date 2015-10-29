@@ -3,11 +3,6 @@ package com.acme.edu;
 import com.jet.present.Printer;
 
 public class Logger {
-
-    private Logger(){
-
-    }
-
     /**
      * Используется для вывода переданного аргумента.
      * @param message

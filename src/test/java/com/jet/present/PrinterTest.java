@@ -17,9 +17,9 @@ public class PrinterTest implements SysoutCaptureAndAssertionAbility{
     @Test
     public void printerTest(){
         Printer.print("123");
-        Printer.print("lalala");
+        Printer.print("Immolate improved!");
 
-        assertSysoutEquals("123" + System.lineSeparator() + "lalala" + System.lineSeparator());
+        assertSysoutEquals("123" + System.lineSeparator() + "Immolate improved!" + System.lineSeparator());
     }
 
 }
