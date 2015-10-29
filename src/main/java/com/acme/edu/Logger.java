@@ -1,28 +1,31 @@
 package com.acme.edu;
 
+import com.jet.present.Printer;
+
 public class Logger {
+
+    private Logger(){
+
+    }
 
     /**
      * Используется для вывода переданного аргумента.
      * @param message
      */
     public static void log(int message) {
-        print("primitive: " + message);
+        Printer.print("primitive: " + message);
     }
 
     /**
      * Используется для вывода переданного аргумента.
      * @param message
      */
-    public static void log(boolean message) { print("primitive: " + (message ? "true" : "false"));}
+    public static void log(boolean message) { Printer.print("primitive: " + (message ? "true" : "false"));}
 
     /**
      * Используется для вывода переданного аргумента.
      * @param message
      */
-    public static void log(char message) {print("char: " + message);}
+    public static void log(char message) {Printer.print("char: " + message);}
 
-    private static void print(String s){
-        System.out.println(s);
-    }
 }
