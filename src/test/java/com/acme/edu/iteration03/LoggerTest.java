@@ -28,7 +28,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
 
         //region then
         assertSysoutEquals(
-            "primitives array: {-1, 0, 1}" + SEP()
+            "primitives: 0" + SEP()
         );
         //endregion
     }
@@ -89,7 +89,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //endregion
 
         //region then
-        assertSysoutEquals("3");
+        assertSysoutEquals("primitives: 3" + SEP());
         //endregion
     }
 

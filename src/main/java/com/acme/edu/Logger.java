@@ -134,19 +134,24 @@ public class Logger {
     }
 
     /**
-     * Используется для вывода множества аргументов
-     *
+     * Используется для вывода суммы множества аргументов
+     * @param message Множество аргументов
      */
     public static void log(int... message){
-        StringBuffer messageBuffer = new StringBuffer();
+        //StringBuffer messageBuffer = new StringBuffer();
+        int sum = 0;
         for(int i : message){
-            messageBuffer.append(i);
-            messageBuffer.append(", ");
+            sum+=i;
         }
-        messageBuffer.delete(messageBuffer.length() - 2, messageBuffer.length());
-        Printer.print("primitives array: {" + messageBuffer + "}");
+        //messageBuffer.delete(messageBuffer.length() - 2, messageBuffer.length());
+        //Printer.print("primitives : {" + messageBuffer + "}");
+        Printer.print("primitives: " + sum);
     }
 
+    /**
+     * Используется для вывода множества аргументов
+     * @param message Множество аргументов
+     */
     public static void log(int[][] message){
         StringBuffer messageBuffer = new StringBuffer();
         Printer.print("primitives matrix: {");
