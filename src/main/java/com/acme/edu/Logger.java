@@ -50,7 +50,7 @@ public class Logger {
 
     /**
      * Используется для вывода переданного аргумента.
-     * @param message
+     * @param message сообщение для вывода
      */
     public static void log(int message) {
         printBufferString();
@@ -61,18 +61,19 @@ public class Logger {
 
         if(message == Integer.MAX_VALUE){
             printBufferSum();
-            Printer.print("primitive: " + Integer.MAX_VALUE);
             resetCalcs();
 
         }
         if(sum < Integer.MAX_VALUE)
             sum+=message;
-        else{
-           // printBufferSum();
-        }
+
         previousType = "sum";
     }
 
+    /**
+     * Используется для вывода переданного аргумента.
+     * @param message сообщение для вывода
+     */
     public static void log(byte message){
         printBufferString();
         printBufferSum();
@@ -83,7 +84,7 @@ public class Logger {
 
     /**
      * Используется для вывода переданного аргумента.
-     * @param message
+     * @param message сообщение для вывода
      */
     public static void log(boolean message) {
         printBufferString();
@@ -94,7 +95,7 @@ public class Logger {
 
     /**
      * Используется для вывода переданного аргумента.
-     * @param message
+     * @param message сообщение для вывода
      */
     public static void log(char message) {
         printBufferString();
@@ -105,7 +106,7 @@ public class Logger {
 
     /**
      * Используется для вывода переданного аргумента.
-     * @param message
+     * @param message сообщение для вывода
      */
     public static void log(String message) {
         printBufferSum();
@@ -127,8 +128,8 @@ public class Logger {
     }
 
     /**
-     * Используется для вывода переданного аргумента
-     * @param message
+     * Используется для вывода переданного аргумента.
+     * @param message сообщение для вывода
      */
     public static void log(Object message) {
         printBufferSum();
