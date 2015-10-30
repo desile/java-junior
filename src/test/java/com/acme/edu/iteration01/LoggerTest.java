@@ -10,11 +10,11 @@ import java.io.*;
 public class LoggerTest implements SysoutCaptureAndAssertionAbility {
 
     //private static final String ☺ = System.lineSeparator();
-    private static final String SEP = System.lineSeparator();
 
     //region given
     @Before
     public void setUpSystemOut() throws IOException {
+        flushSysout();
         captureSysout();
     }
     //endregion
@@ -25,20 +25,22 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         Logger.log(1);
         Logger.log(0);
         Logger.log(-1);
+        Logger.close();
         //endregion
 
         //region then
         assertSysoutContains("primitive: ");
-        assertSysoutEquals("primitive: 1" + SEP + "primitive: 0" + SEP + "primitive: -1" + SEP);
+        assertSysoutEquals("primitive: 0" + SEP());
         //endregion
     }
 
     @Test
     public void shouldLogByte() throws IOException {
         //region when
-        Logger.log((byte)1);
-        Logger.log((byte)0);
-        Logger.log((byte)-1);
+        Logger.log((byte) 1);
+        Logger.log((byte) 0);
+        Logger.log((byte) -1);
+        Logger.close();
         //endregion
 
 
@@ -67,7 +69,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //endregion
     }
 
-    /*@Test
+    @Test
     public void shouldLogString() throws IOException {
         //region when
         Logger.log("test string 1");
@@ -79,7 +81,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         assertSysoutContains("test string 1");
         assertSysoutContains("other str");
         //endregion
-    }*/
+    }
 
     @Test
     public void shouldLogBoolean() throws IOException {
@@ -95,7 +97,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //endregion
     }
 
-    /*@Test
+    @Test
     public void shouldLogReference() throws IOException {
         //region when
         Logger.log(new Object());
@@ -106,6 +108,4 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         assertSysoutContains("@");
         //endregion
     }
-
-    */
 }

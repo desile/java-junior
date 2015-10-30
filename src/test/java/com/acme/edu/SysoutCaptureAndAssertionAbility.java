@@ -23,6 +23,10 @@ public interface SysoutCaptureAndAssertionAbility {
         OUT.reset();
     }
 
+    public default String SEP(){
+        return System.lineSeparator();
+    }
+
     default void assertSysoutEquals(String expected) {
         assertThat(OUT.toString()).isEqualTo(expected);
     }
@@ -30,4 +34,6 @@ public interface SysoutCaptureAndAssertionAbility {
     default void assertSysoutContains(String expected) {
         assertThat(OUT.toString()).contains(expected);
     }
+
+
 }
