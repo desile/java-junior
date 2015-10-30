@@ -37,6 +37,9 @@ public class Logger {
         operationType = "new";
     }
 
+    /**
+     * Завершение текущего сеанса логирования.
+     */
     public static void close(){
         //Printer.print("close: " + sum);
         printBufferString();
