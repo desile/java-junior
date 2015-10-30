@@ -4,19 +4,18 @@ import com.jet.present.Printer;
 
 public class Logger {
 
-    private static String operationType = "start";//start,new,sum,strsum,finish
-    private static String previousType = "start";
+    private static String operationType = "new";//start,new,sum,strsum
+    private static String previousType = "new";
     private static int sum = 0;
     private static String prevString = "";
-    private static int prevNumber = 0;
     private static int sumStr = 1;
 
     private static void resetCalcs(){
         sum = 0;
         sumStr = 1;
         prevString = "";
-        operationType = "start";
-        previousType = "start";
+        operationType = "new";
+        previousType = "new";
     }
 
     private static void printBufferSum(){
@@ -54,8 +53,7 @@ public class Logger {
      */
     public static void log(int message) {
         printBufferString();
-        operationType = "sum";
-        if(operationType.equals("sum") && !previousType.equals("sum")){
+        if(!previousType.equals("sum")){
             sum=0;
         }
 
@@ -110,8 +108,7 @@ public class Logger {
      */
     public static void log(String message) {
         printBufferSum();
-        operationType = "str";
-        if(operationType.equals("str") && !previousType.equals("str")){
+        if(!previousType.equals("str")){
             sumStr=1;
             prevString=message;
         }
@@ -136,6 +133,69 @@ public class Logger {
         Printer.print("reference: " + message);
     }
 
+    /**
+     * Используется для вывода множества аргументов
+     *
+     */
+    public static void log(int... message){
+        StringBuffer messageBuffer = new StringBuffer();
+        for(int i : message){
+            messageBuffer.append(i);
+            messageBuffer.append(", ");
+        }
+        messageBuffer.delete(messageBuffer.length() - 2, messageBuffer.length());
+        Printer.print("primitives array: {" + messageBuffer + "}");
+    }
 
+    public static void log(int[][] message){
+        StringBuffer messageBuffer = new StringBuffer();
+        Printer.print("primitives matrix: {");
+        for(int[] row : message){
+            for(int i : row){
+                messageBuffer.append(i);
+                messageBuffer.append(", ");
+            }
+            messageBuffer.delete(messageBuffer.length() - 2, messageBuffer.length());
+            Printer.print("{" + messageBuffer.toString() + "}");
+            messageBuffer.setLength(0);
+        }
+        Printer.print("}");
+
+
+    }
+
+    public static void log(String... message){
+        for(int i = 0; i < message.length; i++){
+            if(i==message.length-1){
+                Printer.print(message[i],false);
+            }else{
+                Printer.print(message[i]);
+            }
+        }
+    }
+
+    public static void log(int[][][][] message){
+        StringBuffer messageBuffer = new StringBuffer();
+        Printer.print("primitives multimatrix: {");
+        for(int[][][] i3 : message){
+            Printer.print("{");
+            for(int[][] i2 : i3){
+                Printer.print("{");
+                for(int[] i1 : i2){
+                    Printer.print("{");
+                    for(int i : i1){
+                        messageBuffer.append(i);
+                        messageBuffer.append(", ");
+                    }
+                    messageBuffer.delete(messageBuffer.length() - 2, messageBuffer.length());
+                    Printer.print(messageBuffer.toString());
+                    Printer.print("}");
+                }
+                Printer.print("}");
+            }
+            Printer.print("}");
+        }
+        Printer.print("}");
+    }
 
 }
