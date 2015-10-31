@@ -72,12 +72,12 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     @Test
     public void shouldLogStringsWithOneMethodCall() throws IOException {
         //region when
-        Logger.log("str1", "string 2", "str 3");
+        Logger.log("str1", "string 2", "str 3", "str 3");
         Logger.close();
         //endregion
 
         //region then
-        assertSysoutContains("str1" + SEP() + "string 2" + SEP() + "str 3");
+        assertSysoutContains("string: str1" + SEP() + "string: string 2" + SEP() + "string: str 3 (x2)" + SEP());
         //endregion
     }
 
@@ -98,7 +98,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //region when
         Logger.log(1);
         Logger.log("str");
-        Logger.log(Integer.MAX_VALUE - 10);
+        Logger.log(Integer.MAX_VALUE);
         Logger.log(11);
         Logger.close();
         //endregion
@@ -106,7 +106,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //region then
         assertSysoutContains(1 + "");
         assertSysoutContains("str");
-        assertSysoutContains(Integer.MAX_VALUE - 10 + "");
+        assertSysoutContains(Integer.MAX_VALUE + "");
         assertSysoutContains(11 + "");
         //endregion
     }

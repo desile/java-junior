@@ -2,68 +2,97 @@ package com.acme.edu;
 
 import com.jet.present.Printer;
 
+/**
+ * Средство для логирования входных данных с обработкой в режиме реального времени.
+ */
 public class Logger {
 
-    private static String operationType = "new";//start,new,sum,strsum
-    private static String previousType = "new";
-    private static int sum = 0;
-    private static String prevString = "";
-    private static int sumStr = 1;
+    //Состояние предшествующее текущему
+    //str - предыдущий метод обрабатывал строку
+    //sumOfIntegers - предыдущий метод обрабатывал целое число int
+    //other - предыдущий метод обрабатывл любые другие данные илл Logger только начинает свою работу
+    private static String previousType = "other";
+    //Текущая сумма данных int
+    private static int sumOfIntegers = 0;
+    //Последняя залогированная строка
+    private static String previousString = "";
+    //Текущее количество повторов строк
+    private static int sumOfStrings = 1;
 
+    //Сброс буферов и состояний
     private static void resetCalcs(){
-        sum = 0;
-        sumStr = 1;
-        prevString = "";
-        operationType = "new";
-        previousType = "new";
+        sumOfIntegers = 0;
+        sumOfStrings = 1;
+        previousString = "";
+        previousType = "other";
     }
 
+    //Печать буфера суммы целых чисел
     private static void printBufferSum(){
-        if (previousType.equals("sum") ) {
-            Printer.print("primitive: " + sum);
-            sum = 0;
+        if ("sum".equals(previousType) ) {
+            Printer.print("primitive: " + sumOfIntegers);
+            sumOfIntegers = 0;
         }
-        operationType = "new";
     }
 
+    //Печать буфера повторяюшихся строк
     private static void printBufferString(){
-        if (previousType.equals("str")){
-            Printer.print("string: " + ((sumStr==1) ? prevString : (prevString + " (x" + (sumStr-1) + ")")));//исправить sumstr
-            prevString = "";
-            sumStr = 1;
+        if ("str".equals(previousType)){
+            Printer.print("string: " + ((sumOfStrings<3) ? previousString : (previousString + " (x" + (sumOfStrings-1) + ")")));//исправить sumOfStrings
+            previousString = "";
+            sumOfStrings = 1;
         }
-
-        operationType = "new";
     }
 
     /**
      * Завершение текущего сеанса логирования.
      */
     public static void close(){
-        //Printer.print("close: " + sum);
         printBufferString();
         printBufferSum();
         resetCalcs();
     }
 
+    //Проверка переполнения типа Integer
+    private static boolean catchingIntegerOverflow(Long number){
+        if(number > Integer.MAX_VALUE)
+            return true;
+        else
+            return false;
+    }
+
+    //Обработка логирования строк, согласно описанию метода log(String)
+    private static void logStringSumming(String message) {
+        if (!"str".equals(previousType)) {
+            sumOfStrings = 1;
+            previousString = message;
+        } else {
+            if (!previousString.equals(message))
+                printBufferString();
+            sumOfStrings++;
+            previousString = message;
+        }
+    }
 
     /**
      * Используется для вывода переданного аргумента.
+     * В случае, если метод вызывается несколько раз подряд для целых чисел, то числа суммируются и выводится их сумма.
+     * Если в ходе повторных вызовов возникает переполнение, то выводится текущая сумма перед переполнением, и суммирование начинается с 0.
      * @param message сообщение для вывода
      */
     public static void log(int message) {
         printBufferString();
-        if(!previousType.equals("sum")){
-            sum=0;
+        if(!"sum".equals(previousType)){
+            sumOfIntegers =0;
         }
 
-        if(message == Integer.MAX_VALUE){
+        if(catchingIntegerOverflow((long) sumOfIntegers +message)){
             printBufferSum();
             resetCalcs();
-
+            sumOfIntegers =message;
+        }else{
+            sumOfIntegers +=message;
         }
-        if(sum < Integer.MAX_VALUE)
-            sum+=message;
 
         previousType = "sum";
     }
@@ -75,9 +104,8 @@ public class Logger {
     public static void log(byte message){
         printBufferString();
         printBufferSum();
-        operationType = "new";
         Printer.print("primitive: " + message);
-        previousType = "new";
+        previousType = "other";
     }
 
     /**
@@ -88,7 +116,7 @@ public class Logger {
         printBufferString();
         printBufferSum();
         Printer.print("primitive: " + (message ? "true" : "false"));
-        previousType = "new";
+        previousType = "other";
     }
 
     /**
@@ -99,27 +127,18 @@ public class Logger {
         printBufferString();
         printBufferSum();
         Printer.print("char: " + message);
-        previousType = "new";
+        previousType = "other";
     }
 
     /**
-     * Используется для вывода переданного аргумента.
+     * Используется для вывода переданного аргумента и подсчета повторяюшихся строчных аргументов идущих подряд.
      * @param message сообщение для вывода
      */
+
+
     public static void log(String message) {
         printBufferSum();
-        if(!previousType.equals("str")){
-            sumStr=1;
-            prevString=message;
-        }
-        else{
-            if(!prevString.equals(message))
-                printBufferString();
-            sumStr++;
-            prevString=message;
-        }
-        //Printer.print("string: " + message);
-
+        logStringSumming(message);
 
         previousType = "str";
     }
@@ -138,13 +157,12 @@ public class Logger {
      * @param message Множество аргументов
      */
     public static void log(int... message){
-        //StringBuffer messageBuffer = new StringBuffer();
+        printBufferSum();
+        printBufferString();
         int sum = 0;
         for(int i : message){
             sum+=i;
         }
-        //messageBuffer.delete(messageBuffer.length() - 2, messageBuffer.length());
-        //Printer.print("primitives : {" + messageBuffer + "}");
         Printer.print("primitives: " + sum);
     }
 
@@ -153,7 +171,9 @@ public class Logger {
      * @param message Множество аргументов
      */
     public static void log(int[][] message){
-        StringBuffer messageBuffer = new StringBuffer();
+        printBufferString();
+        printBufferSum();
+        StringBuilder messageBuffer = new StringBuilder();
         Printer.print("primitives matrix: {");
         for(int[] row : message){
             for(int i : row){
@@ -169,18 +189,34 @@ public class Logger {
 
     }
 
+    /**
+     * Используется для вывода множества строчных аргументов с подсчетом повторов подряд
+     * @param message Множество аргументов
+     */
     public static void log(String... message){
+
+        printBufferSum();
         for(int i = 0; i < message.length; i++){
-            if(i==message.length-1){
+            /*if(i==message.length-1){
                 Printer.print(message[i],false);
             }else{
                 Printer.print(message[i]);
-            }
+            }*/
+            //printBufferString();
+            logStringSumming(message[i]);
+            previousType = "str";
         }
+        //previousType="str";
     }
 
+    /**
+     * Используется для вывода четырехмерного массива целых чисел.
+     * @param message
+     */
     public static void log(int[][][][] message){
-        StringBuffer messageBuffer = new StringBuffer();
+        printBufferString();
+        printBufferSum();
+        StringBuilder messageBuffer = new StringBuilder();
         Printer.print("primitives multimatrix: {");
         for(int[][][] i3 : message){
             Printer.print("{");
