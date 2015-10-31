@@ -197,16 +197,9 @@ public class Logger {
 
         printBufferSum();
         for(int i = 0; i < message.length; i++){
-            /*if(i==message.length-1){
-                Printer.print(message[i],false);
-            }else{
-                Printer.print(message[i]);
-            }*/
-            //printBufferString();
             logStringSumming(message[i]);
             previousType = "str";
         }
-        //previousType="str";
     }
 
     /**
