@@ -1,4 +1,4 @@
-package com.acme.edu;
+package com.acme;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;

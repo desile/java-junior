@@ -1,7 +1,7 @@
-package com.acme.edu.iteration02;
+package com.acme.iteration02;
 
-import com.acme.edu.Logger;
-import com.acme.edu.SysoutCaptureAndAssertionAbility;
+import com.acme.Logger;
+import com.acme.SysoutCaptureAndAssertionAbility;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -79,8 +79,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //region then
         assertSysoutEquals(
             "string: str 1" + SEP() +
-            "primitive: 10" + SEP() +
-            "primitive: " + Byte.MAX_VALUE + SEP() +
+            "primitive: 137" + SEP() +
             "string: str 2" + SEP() +
             "primitive: 0" + SEP()
         );

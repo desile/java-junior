@@ -15,10 +15,12 @@ public class Printer{
 	 * @param msg Данные для вывода
 	 * @param newLine Если true - то каретка после вывода аргумента будет переведена на новую строку
 	 */
-	public static void print(String msg,boolean newLine){
-		if(newLine)
+	public static void print(String msg, boolean newLine){
+		if(newLine) {
 			print(msg);
-		else
+		}
+		else {
 			System.out.print(msg);
+		}
 	}
 }

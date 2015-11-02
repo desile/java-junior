@@ -1,12 +1,16 @@
-package com.acme.edu;
+package com.acme;
 
-import com.jet.present.Printer;
+
+import static com.jet.present.Printer.print;
+import com.acme.states.*;
+
 
 /**
  * Средство для логирования входных данных с обработкой в режиме реального времени.
  */
 public class Logger {
 
+    private static LoggerState state = new LoggerState();
     //Состояние предшествующее текущему
     //str - предыдущий метод обрабатывал строку
     //sumOfIntegers - предыдущий метод обрабатывал целое число int
@@ -17,62 +21,29 @@ public class Logger {
     //Последняя залогированная строка
     private static String previousString = "";
     //Текущее количество повторов строк
-    private static int sumOfStrings = 1;
+    private static int sumOfStrings = 0;
+    //Максимальное количество строк, которое не декоррируется как повтор
+    private static final int DECOR_NUM = 1;
 
     //Сброс буферов и состояний
-    private static void resetCalcs(){
+    private static void resetLogBuffer(){
         sumOfIntegers = 0;
-        sumOfStrings = 1;
+        sumOfStrings = 0;
         previousString = "";
-        previousType = "other";
-    }
-
-    //Печать буфера суммы целых чисел
-    private static void printBufferSum(){
-        if ("sum".equals(previousType) ) {
-            Printer.print("primitive: " + sumOfIntegers);
-            sumOfIntegers = 0;
-        }
-    }
-
-    //Печать буфера повторяюшихся строк
-    private static void printBufferString(){
-        if ("str".equals(previousType)){
-            Printer.print("string: " + ((sumOfStrings<3) ? previousString : (previousString + " (x" + (sumOfStrings-1) + ")")));//исправить sumOfStrings
-            previousString = "";
-            sumOfStrings = 1;
-        }
+        state = new LoggerState();
     }
 
     /**
      * Завершение текущего сеанса логирования.
      */
     public static void close(){
-        printBufferString();
-        printBufferSum();
-        resetCalcs();
+        state.printBuffer();
+        state = new LoggerState();
     }
 
     //Проверка переполнения типа Integer
-    private static boolean catchingIntegerOverflow(Long number){
-        if(number > Integer.MAX_VALUE)
-            return true;
-        else
-            return false;
-    }
 
-    //Обработка логирования строк, согласно описанию метода log(String)
-    private static void logStringSumming(String message) {
-        if (!"str".equals(previousType)) {
-            sumOfStrings = 1;
-            previousString = message;
-        } else {
-            if (!previousString.equals(message))
-                printBufferString();
-            sumOfStrings++;
-            previousString = message;
-        }
-    }
+
 
     /**
      * Используется для вывода переданного аргумента.
@@ -81,31 +52,12 @@ public class Logger {
      * @param message сообщение для вывода
      */
     public static void log(int message) {
-        printBufferString();
-        if(!"sum".equals(previousType)){
-            sumOfIntegers =0;
+        if(!(state instanceof LoggerSumState)){
+            state.printBuffer();
+            state = new LoggerSumState();
         }
+        state.toBuffer(message);
 
-        if(catchingIntegerOverflow((long) sumOfIntegers +message)){
-            printBufferSum();
-            resetCalcs();
-            sumOfIntegers =message;
-        }else{
-            sumOfIntegers +=message;
-        }
-
-        previousType = "sum";
-    }
-
-    /**
-     * Используется для вывода переданного аргумента.
-     * @param message сообщение для вывода
-     */
-    public static void log(byte message){
-        printBufferString();
-        printBufferSum();
-        Printer.print("primitive: " + message);
-        previousType = "other";
     }
 
     /**
@@ -113,10 +65,10 @@ public class Logger {
      * @param message сообщение для вывода
      */
     public static void log(boolean message) {
-        printBufferString();
-        printBufferSum();
-        Printer.print("primitive: " + (message ? "true" : "false"));
-        previousType = "other";
+        state.printBuffer();
+        state = new LoggerState();
+
+        print("primitive: " + (message ? "true" : "false"));
     }
 
     /**
@@ -124,10 +76,10 @@ public class Logger {
      * @param message сообщение для вывода
      */
     public static void log(char message) {
-        printBufferString();
-        printBufferSum();
-        Printer.print("char: " + message);
-        previousType = "other";
+        state.printBuffer();
+        state = new LoggerState();
+
+        print("char: " + message);
     }
 
     /**
@@ -137,10 +89,11 @@ public class Logger {
 
 
     public static void log(String message) {
-        printBufferSum();
-        logStringSumming(message);
-
-        previousType = "str";
+        if(!(state instanceof LoggerStringState)){
+            state.printBuffer();
+            state = new LoggerStringState();
+        }
+        state.toBuffer(message);
     }
 
     /**
@@ -148,22 +101,23 @@ public class Logger {
      * @param message сообщение для вывода
      */
     public static void log(Object message) {
-        printBufferSum();
-        Printer.print("reference: " + message);
+        state.printBuffer();
+        state = new LoggerState();
+
+        print("reference: " + message);
     }
 
     /**
      * Используется для вывода суммы множества аргументов
-     * @param message Множество аргументов
+        * @param message Множество аргументов
      */
     public static void log(int... message){
-        printBufferSum();
-        printBufferString();
+        state.printBuffer();
         int sum = 0;
         for(int i : message){
             sum+=i;
         }
-        Printer.print("primitives: " + sum);
+        print("primitives: " + sum);
     }
 
     /**
@@ -171,20 +125,19 @@ public class Logger {
      * @param message Множество аргументов
      */
     public static void log(int[][] message){
-        printBufferString();
-        printBufferSum();
+        state.printBuffer();
         StringBuilder messageBuffer = new StringBuilder();
-        Printer.print("primitives matrix: {");
+        print("primitives matrix: {");
         for(int[] row : message){
             for(int i : row){
                 messageBuffer.append(i);
                 messageBuffer.append(", ");
             }
             messageBuffer.delete(messageBuffer.length() - 2, messageBuffer.length());
-            Printer.print("{" + messageBuffer.toString() + "}");
+            print("{" + messageBuffer.toString() + "}");
             messageBuffer.setLength(0);
         }
-        Printer.print("}");
+        print("}");
 
 
     }
@@ -195,10 +148,11 @@ public class Logger {
      */
     public static void log(String... message){
 
-        printBufferSum();
+        state.printBuffer();
+        state = new LoggerStringState();
+
         for(int i = 0; i < message.length; i++){
-            logStringSumming(message[i]);
-            previousType = "str";
+            state.toBuffer(message[i]);
         }
     }
 
@@ -207,29 +161,30 @@ public class Logger {
      * @param message
      */
     public static void log(int[][][][] message){
-        printBufferString();
-        printBufferSum();
+        state.printBuffer();
+        state = new LoggerState();
+
         StringBuilder messageBuffer = new StringBuilder();
-        Printer.print("primitives multimatrix: {");
+        print("primitives multimatrix: {");
         for(int[][][] i3 : message){
-            Printer.print("{");
+            print("{");
             for(int[][] i2 : i3){
-                Printer.print("{");
+                print("{");
                 for(int[] i1 : i2){
-                    Printer.print("{");
+                    print("{");
                     for(int i : i1){
                         messageBuffer.append(i);
                         messageBuffer.append(", ");
                     }
                     messageBuffer.delete(messageBuffer.length() - 2, messageBuffer.length());
-                    Printer.print(messageBuffer.toString());
-                    Printer.print("}");
+                    print(messageBuffer.toString());
+                    print("}");
                 }
-                Printer.print("}");
+                print("}");
             }
-            Printer.print("}");
+            print("}");
         }
-        Printer.print("}");
+        print("}");
     }
 
 }

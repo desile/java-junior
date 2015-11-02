@@ -1,6 +1,6 @@
 package com.jet.present;
 
-import com.acme.edu.SysoutCaptureAndAssertionAbility;
+import com.acme.SysoutCaptureAndAssertionAbility;
 import org.junit.Before;
 import org.junit.Test;
 import java.io.*;

@@ -1,7 +1,7 @@
-package com.acme.edu.iteration01;
+package com.acme.iteration01;
 
-import com.acme.edu.Logger;
-import com.acme.edu.SysoutCaptureAndAssertionAbility;
+import com.acme.Logger;
+import com.acme.SysoutCaptureAndAssertionAbility;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -46,9 +46,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
 
         //region then
         assertSysoutContains("primitive: ");
-        assertSysoutContains("1");
         assertSysoutContains("0");
-        assertSysoutContains("-1");
         //endregion
     }
 
