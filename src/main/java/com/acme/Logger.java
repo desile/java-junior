@@ -10,35 +10,21 @@ import com.acme.states.*;
  */
 public class Logger {
 
-    private static LoggerState state = new LoggerState();
-    //Состояние предшествующее текущему
-    //str - предыдущий метод обрабатывал строку
-    //sumOfIntegers - предыдущий метод обрабатывал целое число int
-    //other - предыдущий метод обрабатывл любые другие данные илл Logger только начинает свою работу
-    private static String previousType = "other";
-    //Текущая сумма данных int
-    private static int sumOfIntegers = 0;
-    //Последняя залогированная строка
-    private static String previousString = "";
-    //Текущее количество повторов строк
-    private static int sumOfStrings = 0;
-    //Максимальное количество строк, которое не декоррируется как повтор
-    private static final int DECOR_NUM = 1;
+    private static LoggerStateFactory lsFactory = new LoggerStateFactory();
+    private static LoggerState state;
+
+    static {
+        state = lsFactory.setToComState(state);
+    }
+
 
     //Сброс буферов и состояний
-    private static void resetLogBuffer(){
-        sumOfIntegers = 0;
-        sumOfStrings = 0;
-        previousString = "";
-        state = new LoggerState();
-    }
 
     /**
      * Завершение текущего сеанса логирования.
      */
     public static void close(){
-        state.printBuffer();
-        state = new LoggerState();
+        state = lsFactory.setToComState(state);
     }
 
     //Проверка переполнения типа Integer
@@ -52,10 +38,7 @@ public class Logger {
      * @param message сообщение для вывода
      */
     public static void log(int message) {
-        if(!(state instanceof LoggerSumState)){
-            state.printBuffer();
-            state = new LoggerSumState();
-        }
+        state = lsFactory.setToSumState(state);
         state.toBuffer(message);
 
     }
@@ -65,10 +48,9 @@ public class Logger {
      * @param message сообщение для вывода
      */
     public static void log(boolean message) {
-        state.printBuffer();
-        state = new LoggerState();
+        state = lsFactory.setToBoolState(state);
+        state.toBuffer(message);
 
-        print("primitive: " + (message ? "true" : "false"));
     }
 
     /**
@@ -76,10 +58,9 @@ public class Logger {
      * @param message сообщение для вывода
      */
     public static void log(char message) {
-        state.printBuffer();
-        state = new LoggerState();
+        state = lsFactory.setToCharState(state);
+        state.toBuffer(message);
 
-        print("char: " + message);
     }
 
     /**
@@ -89,10 +70,7 @@ public class Logger {
 
 
     public static void log(String message) {
-        if(!(state instanceof LoggerStringState)){
-            state.printBuffer();
-            state = new LoggerStringState();
-        }
+        state = lsFactory.setToStringState(state);
         state.toBuffer(message);
     }
 
@@ -101,10 +79,8 @@ public class Logger {
      * @param message сообщение для вывода
      */
     public static void log(Object message) {
-        state.printBuffer();
-        state = new LoggerState();
-
-        print("reference: " + message);
+        state = lsFactory.setToObjState(state);
+        state.toBuffer(message);
     }
 
     /**

@@ -58,6 +58,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //region when
         Logger.log('a');
         Logger.log('b');
+        Logger.close();
         //endregion
 
         //region then
@@ -87,12 +88,15 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //region when
         Logger.log(true);
         Logger.log(false);
+        Logger.log(true);
+        Logger.close();
         //endregion
 
         //region then
-        assertSysoutContains("primitive: ");
-        assertSysoutContains("true");
-        assertSysoutContains("false");
+        //assertSysoutContains("primitive: ");
+        //assertSysoutContains("true");
+        //assertSysoutContains("false");
+        assertSysoutEquals("primitive: true" + SEP() + "primitive: false" + SEP() + "primitive: true" + SEP());
         //endregion
     }
 
@@ -100,6 +104,8 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     public void shouldLogReference() throws IOException {
         //region when
         Logger.log(new Object());
+        Logger.log(new Object());
+        Logger.close();
         //endregion
 
         //region then
