@@ -1,22 +1,35 @@
 package com.acme.states;
 
+import com.jet.present.Printable;
+
 /**
  * Created by DeSile on 03.11.2015.
  */
 public class LoggerStateFactory {
 
-    private LoggerState boolState = new LoggerBoolState();
-    private LoggerState charState = new LoggerCharState();
-    private LoggerState objState = new LoggerObjState();
-    private LoggerState stringState = new LoggerStringState();
-    private LoggerState sumState = new LoggerSumState();
-    private LoggerState comState = new LoggerState();
+    private Printable printer;
+
+    private LoggerState boolState;
+    private LoggerState charState;
+    private LoggerState objState;
+    private LoggerState stringState;
+    private LoggerState sumState;
+    private LoggerState comState;
+
+    public LoggerStateFactory(Printable printer){
+        this.printer = printer;
+        boolState = new LoggerBoolState(printer);
+        charState = new LoggerCharState(printer);
+        objState = new LoggerObjState(printer);
+        stringState = new LoggerStringState(printer);
+        sumState = new LoggerSumState(printer);
+        comState = new LoggerState(printer);
+    }
 
     public LoggerState setToBoolState(LoggerState state){
         state.printBuffer();
         return boolState;
     }
-
     public LoggerState setToCharState(LoggerState state){
         state.printBuffer();
         return charState;

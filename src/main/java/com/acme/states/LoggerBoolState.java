@@ -1,6 +1,6 @@
 package com.acme.states;
 
-import static com.jet.present.Printer.print;
+import com.jet.present.Printable;
 
 /**
  * Created by DeSile on 02.11.2015.
@@ -9,9 +9,13 @@ public class LoggerBoolState extends LoggerState {
 
     private boolean buffer;
 
+    public LoggerBoolState(Printable printer){
+        super(printer);
+    }
+
     @Override
     public void printBuffer(){
-        print("primitive: " + (buffer ? "true" : "false"));
+        printer.print("primitive: " + (buffer ? "true" : "false"));
     }
 
     @Override

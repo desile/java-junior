@@ -1,6 +1,6 @@
 package com.acme.states;
 
-import com.jet.present.Printer;
+import com.jet.present.Printable;
 
 /**
  * Created by DeSile on 02.11.2015.
@@ -18,7 +18,8 @@ public class LoggerSumState extends LoggerState {
         }
     }
 
-    public LoggerSumState(){
+    public LoggerSumState(Printable printer){
+        super(printer);
         buffer = 0;
     }
 
@@ -34,7 +35,7 @@ public class LoggerSumState extends LoggerState {
 
     @Override
     public void printBuffer(){
-        Printer.print("primitive: " + buffer);
+        printer.print("primitive: " + buffer);
         buffer = 0;
     }
 

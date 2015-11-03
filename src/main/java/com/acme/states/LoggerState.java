@@ -1,9 +1,17 @@
 package com.acme.states;
 
+import com.jet.present.Printable;
+
 /**
  * Created by DeSile on 02.11.2015.
  */
 public class LoggerState {
+
+    protected Printable printer;
+
+    public LoggerState(Printable printer){
+        this.printer = printer;
+    }
 
     public void toBuffer(String stringBuffer) {
         //throw new OperationNotSupportedException();

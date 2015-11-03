@@ -1,6 +1,6 @@
 package com.acme.states;
 
-import static com.jet.present.Printer.print;
+import com.jet.present.Printable;
 
 /**
  * Created by DeSile on 03.11.2015.
@@ -9,8 +9,12 @@ public class LoggerObjState extends LoggerState {
 
     private Object buffer;
 
+    public LoggerObjState(Printable printer){
+        super(printer);
+    }
+
     public void printBuffer(){
-        print("reference: " + buffer);
+        printer.print("reference: " + buffer);
     }
 
     public void toBuffer(Object msg){

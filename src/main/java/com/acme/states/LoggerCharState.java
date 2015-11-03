@@ -1,6 +1,7 @@
 package com.acme.states;
 
-import static com.jet.present.Printer.print;
+import com.jet.present.Printable;
+
 
 /**
  * Created by DeSile on 02.11.2015.
@@ -9,10 +10,16 @@ public class LoggerCharState extends LoggerState {
 
     private char buffer;
 
+    public LoggerCharState(Printable printer){
+        super(printer);
+    }
+
     @Override
     public void printBuffer() {
-        print("char: " + buffer);
+        printer.print("char: " + buffer);
     }
+
+
 
     @Override
     public void toBuffer(char msg){
