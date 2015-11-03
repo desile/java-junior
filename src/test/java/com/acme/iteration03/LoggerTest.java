@@ -4,9 +4,11 @@ import com.acme.Logger;
 import com.acme.SysoutCaptureAndAssertionAbility;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Ignore;
 
 import java.io.IOException;
 
+@Ignore
 public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     private Logger logger = new Logger();
 
