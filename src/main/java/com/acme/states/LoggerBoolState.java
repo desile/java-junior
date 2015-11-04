@@ -10,12 +10,12 @@ public class LoggerBoolState extends LoggerState {
 
     private boolean buffer;
 
-    public LoggerBoolState(Printable printer){
-        super(printer);
+    public LoggerBoolState(Printable printer, LoggerDecorator decorator){
+        super(printer,decorator);
     }
 
     @Override
-    public void printBuffer(LoggerDecorator decorator){
+    public void printBuffer(){
         printer.print(decorator.decorate("BOOL",(buffer ? "true" : "false")));
     }
 

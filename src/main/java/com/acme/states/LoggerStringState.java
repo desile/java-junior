@@ -9,20 +9,12 @@ import com.jet.present.Printable;
 public class LoggerStringState extends LoggerState {
 
     private String buffer;
-    private String newBuffer;
     private int numOfBuffer;
 
-    private boolean fBuffer = false;
-
-    public LoggerStringState(Printable printer){
-        super(printer);
+    public LoggerStringState(Printable printer, LoggerDecorator decorator){
+        super(printer,decorator);
         buffer = "";
-        newBuffer = "";
         numOfBuffer = 0;
-    }
-
-    public boolean flushBuffer(){
-        return fBuffer;
     }
 
 
@@ -37,27 +29,19 @@ public class LoggerStringState extends LoggerState {
                 numOfBuffer++;
             }
             else{
-                //printBuffer();
-                fBuffer = true;
-                newBuffer = msg;
+                printBuffer();
+                buffer = msg;
                 numOfBuffer = 1;
             }
         }
     }
 
     @Override
-    public void printBuffer(LoggerDecorator decorator){
+    public void printBuffer(){
         printer.print(decorator.decorate("STRING",((numOfBuffer < 2) ? buffer : buffer + " (x" + numOfBuffer + ")")));
-        if(fBuffer){
-            buffer = newBuffer;
-            numOfBuffer = 1;
-            newBuffer = "";
-            fBuffer = false;
-        }
-        else {
             buffer = "";
             numOfBuffer = 0;
-        }
+
     }
 
 }

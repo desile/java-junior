@@ -10,12 +10,12 @@ public class LoggerObjState extends LoggerState {
 
     private Object buffer;
 
-    public LoggerObjState(Printable printer){
-        super(printer);
+    public LoggerObjState(Printable printer, LoggerDecorator decorator){
+        super(printer,decorator);
     }
 
-    public void printBuffer(LoggerDecorator decorator){
-        printer.print(decorator.decorate("OBJ",buffer.toString()));
+    public void printBuffer(){
+        printer.print(decorator.decorate("OBJ",buffer+""));
     }
 
     public void toBuffer(Object msg){

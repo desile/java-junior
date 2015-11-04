@@ -11,12 +11,12 @@ public class LoggerCharState extends LoggerState {
 
     private char buffer;
 
-    public LoggerCharState(Printable printer){
-        super(printer);
+    public LoggerCharState(Printable printer, LoggerDecorator decorator){
+        super(printer,decorator);
     }
 
     @Override
-    public void printBuffer(LoggerDecorator decorator) {
+    public void printBuffer() {
         printer.print(decorator.decorate("CHAR",""+buffer));
     }
 

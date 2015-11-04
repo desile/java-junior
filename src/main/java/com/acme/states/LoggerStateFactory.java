@@ -26,13 +26,15 @@ public class LoggerStateFactory {
 
     public LoggerStateFactory(Printable printer){
         this.printer = printer;
-        boolState = new LoggerBoolState(printer);
-        charState = new LoggerCharState(printer);
-        objState = new LoggerObjState(printer);
-        stringState = new LoggerStringState(printer);
-        sumState = new LoggerSumState(printer);
-        comState = new LoggerState(printer);
         decor = new HashMap<>();
+        decorator = new LoggerPrefixDecorator(decor);
+
+        boolState = new LoggerBoolState(printer,decorator);
+        charState = new LoggerCharState(printer,decorator);
+        objState = new LoggerObjState(printer,decorator);
+        stringState = new LoggerStringState(printer,decorator);
+        sumState = new LoggerSumState(printer,decorator);
+        comState = new LoggerState(printer,decorator);
         //filling decor map
         decor.put("BOOL","primitive");
         decor.put("CHAR","char");
@@ -40,7 +42,6 @@ public class LoggerStateFactory {
         decor.put("STRING","string");
         decor.put("INT","primitive");
         //init decorator
-        decorator = new LoggerPrefixDecorator(decor);
     }
 
     public void setDecorMap(HashMap<String,String> decor){
@@ -53,31 +54,31 @@ public class LoggerStateFactory {
     }
 
     public LoggerState setToBoolState(LoggerState state){
-        state.printBuffer(decorator);
+        state.printBuffer();
         return boolState;
     }
     public LoggerState setToCharState(LoggerState state){
-        state.printBuffer(decorator);
+        state.printBuffer();
         return charState;
     }
 
     public LoggerState setToObjState(LoggerState state){
-        state.printBuffer(decorator);
+        state.printBuffer();
         return objState;
     }
 
     public LoggerState setToStringState(LoggerState state){
         //printer.print("String");
-        if(state != stringState || state.flushBuffer()){
+        if(state != stringState){
             //printer.print("flushed");
-            state.printBuffer(decorator);
+            state.printBuffer();
         }
         return stringState;
     }
 
     public LoggerState setToSumState(LoggerState state){
-        if(state != sumState || state.flushBuffer()){
-            state.printBuffer(decorator);
+        if(state != sumState){
+            state.printBuffer();
         }
         return sumState;
     }
@@ -85,9 +86,7 @@ public class LoggerStateFactory {
     public LoggerState setToComState(LoggerState state){
         //printer.print("asshole");
         if(state!=null){
-            if(state.flushBuffer())
-                state.printBuffer(decorator);
-            state.printBuffer(decorator);
+            state.printBuffer();
         }
         return comState;
     }

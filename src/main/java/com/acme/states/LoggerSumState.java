@@ -10,8 +10,6 @@ public class LoggerSumState extends LoggerState {
 
     private int buffer;
 
-    private boolean fBuffer = false;
-
     private boolean isIntegerOverflow(long number){
         if(number > Integer.MAX_VALUE || number < Integer.MIN_VALUE) {
             return true;
@@ -21,16 +19,15 @@ public class LoggerSumState extends LoggerState {
         }
     }
 
-    public LoggerSumState(Printable printer){
-        super(printer);
+    public LoggerSumState(Printable printer, LoggerDecorator decorator){
+        super(printer, decorator);
         buffer = 0;
     }
 
     @Override
     public void toBuffer(int msg){
         if(isIntegerOverflow((long)msg+buffer)){
-            //printBuffer();
-            fBuffer = true;
+            printBuffer();
             buffer = msg;
         }else{
             buffer+=msg;
@@ -38,15 +35,9 @@ public class LoggerSumState extends LoggerState {
     }
 
     @Override
-    public void printBuffer(LoggerDecorator decorator){
+    public void printBuffer(){
         printer.print(decorator.decorate("INT", ""+buffer));
         buffer = 0;
-        fBuffer = false;
-    }
-
-    @Override
-    public boolean flushBuffer(){
-        return fBuffer;
     }
 
 

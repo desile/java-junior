@@ -9,9 +9,11 @@ import com.jet.present.Printable;
 public class LoggerState {
 
     protected Printable printer;
+    protected LoggerDecorator decorator;
 
-    public LoggerState(Printable printer){
+    public LoggerState(Printable printer, LoggerDecorator decorator){
         this.printer = printer;
+        this.decorator = decorator;
     }
 
     public void toBuffer(String stringBuffer) {
@@ -34,12 +36,8 @@ public class LoggerState {
 
     }
 
-    public void printBuffer(LoggerDecorator decorator){
+    public void printBuffer(){
 
-    }
-
-    public boolean flushBuffer(){
-        return false;
     }
 
 
