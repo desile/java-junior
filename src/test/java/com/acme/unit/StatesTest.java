@@ -72,9 +72,12 @@ public class StatesTest {
         LoggerState state = new LoggerSumState(printer,decorator);
         state.toBuffer(Integer.MAX_VALUE);
         state.toBuffer(10);
+        state.toBuffer(Integer.MIN_VALUE);
+        state.toBuffer(-100);
         state.printBuffer();
         verify(decorator).decorate("INT", Integer.MAX_VALUE + "");
-        verify(decorator).decorate("INT", 10 + "");
+        verify(decorator).decorate("INT", 10+Integer.MIN_VALUE + "");
+        verify(decorator).decorate("INT", "-100");
     }
 
 
