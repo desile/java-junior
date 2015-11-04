@@ -16,7 +16,7 @@ public class Logger {
     private  LoggerStateFactory lsFactory = new LoggerStateFactory(printer);
     private  LoggerState state;
 
-     {
+    {
         state = lsFactory.setToComState(state);
     }
 
@@ -28,6 +28,14 @@ public class Logger {
      */
     public  void close(){
         state = lsFactory.setToComState(state);
+    }
+
+    public LoggerStateFactory getStateFactory(){
+        return lsFactory;
+    }
+
+    public void setStateFactory(LoggerStateFactory lsf){
+        this.lsFactory = lsf;
     }
 
     //Проверка переполнения типа Integer
@@ -91,7 +99,7 @@ public class Logger {
         * @param message Множество аргументов
      */
     public  void log(int... message){
-        state.printBuffer();
+        state.printBuffer(lsFactory.getDecorator());
         int sum = 0;
         for(int i : message){
             sum+=i;
@@ -104,7 +112,7 @@ public class Logger {
      * @param message Множество аргументов
      */
     public  void log(int[][] message){
-        state.printBuffer();
+        state.printBuffer(lsFactory.getDecorator());
         StringBuilder messageBuffer = new StringBuilder();
         printer.print("primitives matrix: {");
         for(int[] row : message){
@@ -127,7 +135,7 @@ public class Logger {
      */
     public  void log(String... message){
 
-        state.printBuffer();
+        state.printBuffer(lsFactory.getDecorator());
         state = new LoggerStringState(printer);
 
         for(int i = 0; i < message.length; i++){
@@ -140,7 +148,7 @@ public class Logger {
      * @param message
      */
     public  void log(int[][][][] message){
-        state.printBuffer();
+        state.printBuffer(lsFactory.getDecorator());
         state = new LoggerState(printer);
 
         StringBuilder messageBuffer = new StringBuilder();

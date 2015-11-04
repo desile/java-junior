@@ -1,5 +1,6 @@
 package com.acme.states;
 
+import com.acme.LoggerDecorator;
 import com.jet.present.Printable;
 
 /**
@@ -33,8 +34,12 @@ public class LoggerState {
 
     }
 
-    public void printBuffer(){
+    public void printBuffer(LoggerDecorator decorator){
 
+    }
+
+    public boolean flushBuffer(){
+        return false;
     }
 
 

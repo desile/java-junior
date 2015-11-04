@@ -1,5 +1,7 @@
 package com.acme.unit;
 
+import com.acme.LoggerDecorator;
+import com.acme.LoggerPrefixDecorator;
 import com.acme.states.LoggerState;
 import com.acme.states.LoggerStringState;
 import com.acme.states.LoggerSumState;
@@ -16,26 +18,31 @@ import static org.mockito.Mockito.*;
 public class StatesTest {
 
     ConsolePrinter printer;
+    LoggerPrefixDecorator decorator;
 
     @Before
     public void setPrinterMock(){
         printer = mock(ConsolePrinter.class);
+        decorator = mock(LoggerPrefixDecorator.class);
+
     }
 
     @Test
     public void shouldStringAddedToStringBuffer(){
         LoggerState state = new LoggerStringState(printer);
+        stub(decorator.decorate("STRING",anyString())).toReturn("string: Kek");
         state.toBuffer("Kek");
-        state.printBuffer();
+        state.printBuffer(decorator);
         verify(printer).print("string: Kek");
     }
 
     @Test
     public void shouldStringStateSummingStrings(){
         LoggerState state = new LoggerStringState(printer);
+        stub(decorator.decorate("STRING",anyString())).toReturn("string: Kek (x2)");
         state.toBuffer("Kek");
         state.toBuffer("Kek");
-        state.printBuffer();
+        state.printBuffer(decorator);
         verify(printer).print("string: Kek (x2)");
     }
 
@@ -45,7 +52,7 @@ public class StatesTest {
         state.toBuffer(50);
         state.toBuffer(22);
         state.toBuffer(-2);
-        state.printBuffer();
+        state.printBuffer(decorator);
         verify(printer).print("primitive: 70");
     }
 

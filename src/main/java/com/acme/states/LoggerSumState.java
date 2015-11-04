@@ -1,5 +1,6 @@
 package com.acme.states;
 
+import com.acme.LoggerDecorator;
 import com.jet.present.Printable;
 
 /**
@@ -8,6 +9,8 @@ import com.jet.present.Printable;
 public class LoggerSumState extends LoggerState {
 
     private int buffer;
+
+    private boolean fBuffer = false;
 
     private boolean isIntegerOverflow(long number){
         if(number > Integer.MAX_VALUE || number < Integer.MIN_VALUE) {
@@ -26,7 +29,8 @@ public class LoggerSumState extends LoggerState {
     @Override
     public void toBuffer(int msg){
         if(isIntegerOverflow((long)msg+buffer)){
-            printBuffer();
+            //printBuffer();
+            fBuffer = true;
             buffer = msg;
         }else{
             buffer+=msg;
@@ -34,9 +38,15 @@ public class LoggerSumState extends LoggerState {
     }
 
     @Override
-    public void printBuffer(){
-        printer.print("primitive: " + buffer);
+    public void printBuffer(LoggerDecorator decorator){
+        printer.print(decorator.decorate("INT", ""+buffer));
         buffer = 0;
+        fBuffer = false;
+    }
+
+    @Override
+    public boolean flushBuffer(){
+        return fBuffer;
     }
 
 

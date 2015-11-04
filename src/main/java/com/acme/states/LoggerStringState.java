@@ -1,5 +1,6 @@
 package com.acme.states;
 
+import com.acme.LoggerDecorator;
 import com.jet.present.Printable;
 
 /**
@@ -8,12 +9,20 @@ import com.jet.present.Printable;
 public class LoggerStringState extends LoggerState {
 
     private String buffer;
+    private String newBuffer;
     private int numOfBuffer;
+
+    private boolean fBuffer = false;
 
     public LoggerStringState(Printable printer){
         super(printer);
         buffer = "";
+        newBuffer = "";
         numOfBuffer = 0;
+    }
+
+    public boolean flushBuffer(){
+        return fBuffer;
     }
 
 
@@ -28,18 +37,27 @@ public class LoggerStringState extends LoggerState {
                 numOfBuffer++;
             }
             else{
-                printBuffer();
-                buffer = msg;
+                //printBuffer();
+                fBuffer = true;
+                newBuffer = msg;
                 numOfBuffer = 1;
             }
         }
     }
 
     @Override
-    public void printBuffer(){
-        printer.print("string: " + ((numOfBuffer < 2) ? buffer : buffer + " (x" + numOfBuffer + ")"));
-        buffer = "";
-        numOfBuffer = 0;
+    public void printBuffer(LoggerDecorator decorator){
+        printer.print(decorator.decorate("STRING",((numOfBuffer < 2) ? buffer : buffer + " (x" + numOfBuffer + ")")));
+        if(fBuffer){
+            buffer = newBuffer;
+            numOfBuffer = 1;
+            newBuffer = "";
+            fBuffer = false;
+        }
+        else {
+            buffer = "";
+            numOfBuffer = 0;
+        }
     }
 
 }

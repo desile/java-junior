@@ -1,5 +1,6 @@
 package com.acme.states;
 
+import com.acme.LoggerDecorator;
 import com.jet.present.Printable;
 
 
@@ -15,8 +16,8 @@ public class LoggerCharState extends LoggerState {
     }
 
     @Override
-    public void printBuffer() {
-        printer.print("char: " + buffer);
+    public void printBuffer(LoggerDecorator decorator) {
+        printer.print(decorator.decorate("CHAR",""+buffer));
     }
 
 

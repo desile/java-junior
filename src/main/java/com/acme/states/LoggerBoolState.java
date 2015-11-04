@@ -1,5 +1,6 @@
 package com.acme.states;
 
+import com.acme.LoggerDecorator;
 import com.jet.present.Printable;
 
 /**
@@ -14,8 +15,8 @@ public class LoggerBoolState extends LoggerState {
     }
 
     @Override
-    public void printBuffer(){
-        printer.print("primitive: " + (buffer ? "true" : "false"));
+    public void printBuffer(LoggerDecorator decorator){
+        printer.print(decorator.decorate("BOOL",(buffer ? "true" : "false")));
     }
 
     @Override

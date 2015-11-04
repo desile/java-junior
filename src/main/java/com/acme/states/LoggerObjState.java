@@ -1,5 +1,6 @@
 package com.acme.states;
 
+import com.acme.LoggerDecorator;
 import com.jet.present.Printable;
 
 /**
@@ -13,8 +14,8 @@ public class LoggerObjState extends LoggerState {
         super(printer);
     }
 
-    public void printBuffer(){
-        printer.print("reference: " + buffer);
+    public void printBuffer(LoggerDecorator decorator){
+        printer.print(decorator.decorate("OBJ",buffer.toString()));
     }
 
     public void toBuffer(Object msg){
