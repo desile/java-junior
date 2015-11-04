@@ -98,12 +98,9 @@ public class Logger {
         * @param message Множество аргументов
      */
     public  void log(int... message){
-        state.printBuffer();
-        int sum = 0;
         for(int i : message){
-            sum+=i;
+            log(i);
         }
-        printer.print("primitives: " + sum);
     }
 
     /**
@@ -111,7 +108,7 @@ public class Logger {
      * @param message Множество аргументов
      */
     public  void log(int[][] message){
-        state.printBuffer();
+        /*state.printBuffer();
         StringBuilder messageBuffer = new StringBuilder();
         printer.print("primitives matrix: {");
         for(int[] row : message){
@@ -123,8 +120,10 @@ public class Logger {
             printer.print("{" + messageBuffer.toString() + "}");
             messageBuffer.setLength(0);
         }
-        printer.print("}");
-
+        printer.print("}");*/
+        for(int[] i : message){
+            log(i);
+        }
 
     }
 
@@ -134,11 +133,8 @@ public class Logger {
      */
     public  void log(String... message){
 
-        state.printBuffer();
-        state = new LoggerStringState(printer,lsFactory.getDecorator());
-
-        for(int i = 0; i < message.length; i++){
-            state.toBuffer(message[i]);
+        for(String s : message){
+            log(s);
         }
     }
 
@@ -147,7 +143,7 @@ public class Logger {
      * @param message
      */
     public  void log(int[][][][] message){
-        state.printBuffer();
+        /*state.printBuffer();
         state = new LoggerState(printer, lsFactory.getDecorator());
 
         StringBuilder messageBuffer = new StringBuilder();
@@ -170,31 +166,12 @@ public class Logger {
             }
             printer.print("}");
         }
-        printer.print("}");
-    }
-
-    public static void main(String[] args) {
-        Logger l = new Logger();
-        LoggerStateFactory factory = l.getStateFactory();
-        ConsolePrinter printer = new ConsolePrinter();
-        LoggerState state = factory.setToComState(null);
-
-        state = factory.setToBoolState(state);
-        state.toBuffer(true);
-
-        state = factory.setToCharState(state);
-        state.toBuffer('a');
-
-        Object obj = new Object();
-        factory.setToObjState(state);
-        state.toBuffer(obj);
-
-        factory.setToComState(state);
-
-
-        l.log(10);
-        l.log(20);
-        l.close();
+        printer.print("}");*/
+        for(int[][][] i3 : message){
+            for(int[][] i2: i3){
+                log(i2);
+            }
+        }
     }
 
 }

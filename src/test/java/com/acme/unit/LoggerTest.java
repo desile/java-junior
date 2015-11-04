@@ -5,6 +5,8 @@ import com.acme.states.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 import static org.mockito.Mockito.*;
 
 /**
@@ -62,6 +64,38 @@ public class LoggerTest {
         verify(factory, times(1)).setToStringState(anyObject());
         verify(factory, times(2)).setToComState(anyObject());
 
+    }
+
+    @Test
+    public void shouldElementsInArraySetToSumState() {
+        logger.log(1, 2, 3, 4);
+        verify(factory, times(4)).setToSumState(anyObject()); //summing for times for array of 4 elements
+    }
+
+    @Test
+    public void shouldStringsInArraySetToStringState(){
+        logger.log("test1","test1","test2");
+        verify(factory, times(3)).setToStringState(anyObject());
+    }
+
+    @Test
+    public void shouldElementsInTwoDimensionalArraySetToSumState(){
+        logger.log(new int[][]{{1,2,3},{2,3,4},{0,1,0}});
+        verify(factory, times(9)).setToSumState(anyObject());
+    }
+
+    @Test
+    public void shouldElementsInFourDimensionalArraySetToSumState(){
+        int[][][][] multiArr = new int[3][3][3][3];
+        for(int[][][] i3 : multiArr){
+            for(int[][] i2: i3){
+                for(int[] i1: i2){
+                    Arrays.fill(i1,1);
+                }
+            }
+        }
+        logger.log(multiArr);
+        verify(factory,times(3*3*3*3)).setToSumState(anyObject());
     }
 
 

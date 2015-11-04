@@ -27,16 +27,17 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     public void shouldLogIntegersArray() throws IOException {
         //region when
         logger.log(new int[]{-1, 0, 1});
+        logger.close();
         //endregion
 
         //region then
         assertSysoutEquals(
-            "primitives: 0" + SEP()
+                "primitive: 0" + SEP()
         );
         //endregion
     }
 
-    @Test
+    /*@Test
     public void shouldLogIntegersMatrix() throws IOException {
         //region when
         logger.log(new int[][] {{-1, 0, 1}, {1, 2, 3}, {-1, -2, -3}});
@@ -52,6 +53,19 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
                         "}" + SEP()
         );
         //endregion
+    }*/
+    @Test
+    public void shouldLogIntegersMatrix() throws IOException {
+        //region when
+        logger.log(new int[][]{{-1, 0, 1}, {1, 2, 4}, {-1, -2, -3}});
+        logger.close();
+        //endregion
+
+        //region then
+        assertSysoutEquals(
+                "primitive: 1" + SEP()
+        );
+        //endregion
     }
 
     @Test
@@ -63,11 +77,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
 
         //region then
         assertSysoutEquals(
-                "primitives multimatrix: {" + SEP() +
-                        "{" + SEP() + "{" + SEP() + "{" + SEP() +
-                        "0" + SEP() +
-                        "}" + SEP() + "}" + SEP() + "}" + SEP() +
-                        "}" + SEP()
+                "primitive: 0" + SEP()
         );
         //endregion
     }
@@ -92,7 +102,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //endregion
 
         //region then
-        assertSysoutEquals("primitives: 3" + SEP());
+        assertSysoutEquals("primitive: 3" + SEP());
         //endregion
     }
 
