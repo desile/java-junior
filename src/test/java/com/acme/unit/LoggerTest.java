@@ -14,10 +14,31 @@ public class LoggerTest {
 
     private Logger logger = new Logger();
     private LoggerStateFactory factory;
+    private LoggerBoolState boolState;
+    private LoggerStringState stringState;
+    private LoggerObjState objState;
+    private LoggerSumState sumState;
+    private LoggerCharState charState;
+    private LoggerState comState;
 
     @Before
     public void initFactory(){
         factory = mock(LoggerStateFactory.class);
+        boolState = mock(LoggerBoolState.class);
+        stringState = mock(LoggerStringState.class);
+        objState = mock(LoggerObjState.class);
+        sumState = mock(LoggerSumState.class);
+        charState = mock(LoggerCharState.class);
+        comState = mock(LoggerState.class);
+
+        stub(factory.setToBoolState(anyObject())).toReturn(boolState);
+        stub(factory.setToCharState(anyObject())).toReturn(charState);
+        stub(factory.setToComState(anyObject())).toReturn(comState);
+        stub(factory.setToObjState(anyObject())).toReturn(objState);
+
+        stub(factory.setToSumState(anyObject())).toReturn(sumState);
+
+        stub(factory.setToStringState(anyObject())).toReturn(stringState);
 
         logger.setStateFactory(factory);
     }
