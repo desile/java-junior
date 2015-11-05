@@ -1,6 +1,5 @@
 package com.acme;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**

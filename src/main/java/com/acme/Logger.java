@@ -75,7 +75,7 @@ public class Logger {
      */
 
 
-    public  void log(String message) throws IllegalArgumentException, NullPointerException {
+    public  void log(String message){
         if(message == null){
             throw new NullPointerException("String is null");
         }
@@ -100,7 +100,7 @@ public class Logger {
      * Используется для вывода суммы множества аргументов
         * @param message Множество аргументов
      */
-    public  void log(int... message) throws NullPointerException, IllegalArgumentException{
+    public  void log(int... message){
         if(message == null){
             throw new NullPointerException("Array is null");
         }
@@ -116,7 +116,7 @@ public class Logger {
      * Используется для вывода множества аргументов
      * @param message Множество аргументов
      */
-    public  void log(int[][] message) throws IllegalArgumentException, NullPointerException{
+    public  void log(int[][] message){
         if(message == null){
             throw new NullPointerException("Array is null");
         }
@@ -133,7 +133,7 @@ public class Logger {
      * Используется для вывода множества строчных аргументов с подсчетом повторов подряд
      * @param message Множество аргументов
      */
-    public  void log(String... message) throws NullPointerException, IllegalArgumentException{
+    public  void log(String... message){
         if(message == null){
             throw new NullPointerException("Array is null");
         }
@@ -149,7 +149,7 @@ public class Logger {
      * Используется для вывода четырехмерного массива целых чисел.
      * @param message
      */
-    public  void log(int[][][][] message) throws NullPointerException, IllegalArgumentException{
+    public  void log(int[][][][] message){
         if(message == null){
             throw new NullPointerException("Array is null");
         }

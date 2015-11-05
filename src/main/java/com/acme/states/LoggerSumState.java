@@ -14,9 +14,7 @@ public class LoggerSumState extends LoggerState {
         if(number > Integer.MAX_VALUE || number < Integer.MIN_VALUE) {
             return true;
         }
-        else {
-            return false;
-        }
+        return false;
     }
 
     /**

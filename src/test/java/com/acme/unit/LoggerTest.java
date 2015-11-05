@@ -137,7 +137,7 @@ public class LoggerTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldLoggedEmptyTwoDimensionalArraysThrowsException(){
-        int[][] emptyArr = {{}};
+        int[][] emptyArr = new int[0][0];
         logger.log(emptyArr);
         logger.close();
     }
@@ -171,7 +171,7 @@ public class LoggerTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldLoggedEmptyMultiArrayThrowsException(){
-        int[][][][] emptyArr = {{{{}}}};
+        int[][][][] emptyArr = new int[0][0][0][0];
         logger.log(emptyArr);
         logger.close();
     }
