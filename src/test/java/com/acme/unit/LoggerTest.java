@@ -98,5 +98,19 @@ public class LoggerTest {
         verify(factory,times(3*3*3*3)).setToSumState(anyObject());
     }
 
+    @Test(expected = NullPointerException.class)
+    public void shouldEmptyArrayThrowsException(){
+        int[] nullArr = null;
+        logger.log(nullArr);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void shouldEmptyMultiArrayWithNullArraysThrowsException(){
+        int[][] nullArr = new int[2][];
+        nullArr[0] = null;
+        nullArr[1] = null;
+        logger.log(nullArr);
+    }
+
 
 }

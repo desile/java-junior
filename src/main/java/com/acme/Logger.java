@@ -4,6 +4,7 @@ package com.acme;
 import com.acme.states.*;
 import com.jet.present.ConsolePrinter;
 import com.jet.present.Printable;
+import org.mockito.internal.matchers.Null;
 
 
 /**
@@ -79,8 +80,15 @@ public class Logger {
      */
 
 
-    public  void log(String message) {
+    public  void log(String message) throws IllegalArgumentException, NullPointerException {
+        if(message == null){
+            throw new NullPointerException("String is null");
+        }
+        if(message.isEmpty()){
+            throw new IllegalArgumentException("String is empty");
+        }
         state = lsFactory.setToStringState(state);
+
         state.toBuffer(message);
     }
 
@@ -97,7 +105,13 @@ public class Logger {
      * Используется для вывода суммы множества аргументов
         * @param message Множество аргументов
      */
-    public  void log(int... message){
+    public  void log(int... message) throws NullPointerException, IllegalArgumentException{
+        if(message == null){
+            throw new NullPointerException("Array is null");
+        }
+        if(message.length == 0){
+            throw new IllegalArgumentException("Empty array");
+        }
         for(int i : message){
             log(i);
         }
@@ -107,7 +121,13 @@ public class Logger {
      * Используется для вывода множества аргументов
      * @param message Множество аргументов
      */
-    public  void log(int[][] message){
+    public  void log(int[][] message) throws IllegalArgumentException, NullPointerException{
+        if(message == null){
+            throw new NullPointerException("Array is null");
+        }
+        if(message.length == 0){
+            throw new IllegalArgumentException("Empty array");
+        }
         /*state.printBuffer();
         StringBuilder messageBuffer = new StringBuilder();
         printer.print("primitives matrix: {");
@@ -131,8 +151,13 @@ public class Logger {
      * Используется для вывода множества строчных аргументов с подсчетом повторов подряд
      * @param message Множество аргументов
      */
-    public  void log(String... message){
-
+    public  void log(String... message) throws NullPointerException, IllegalArgumentException{
+        if(message == null){
+            throw new NullPointerException("Array is null");
+        }
+        if(message.length == 0){
+            throw new IllegalArgumentException("Empty array");
+        }
         for(String s : message){
             log(s);
         }
@@ -142,7 +167,13 @@ public class Logger {
      * Используется для вывода четырехмерного массива целых чисел.
      * @param message
      */
-    public  void log(int[][][][] message){
+    public  void log(int[][][][] message) throws NullPointerException, IllegalArgumentException{
+        if(message == null){
+            throw new NullPointerException("Array is null");
+        }
+        if(message.length == 0){
+            throw new IllegalArgumentException("Empty array");
+        }
         /*state.printBuffer();
         state = new LoggerState(printer, lsFactory.getDecorator());
 
@@ -168,6 +199,9 @@ public class Logger {
         }
         printer.print("}");*/
         for(int[][][] i3 : message){
+            if(i3 == null){
+                throw new NullPointerException("Some inner arrays is null");
+            }
             for(int[][] i2: i3){
                 log(i2);
             }

@@ -106,4 +106,13 @@ public class LoggerFactoryTest {
         verify(printer).print("string: stringToLog (x2)");
         verify(printer).print("string: anotherStringToLog (x3)");
     }
+
+    /*
+    @Test
+    public void shouldNullThrowException(){
+        state = null;
+        state.printBuffer();
+        state.toBuffer(4);
+    }
+    */
 }

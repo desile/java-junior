@@ -72,6 +72,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     public void shouldLogIntegersMulitidimentionalArray() throws IOException {
         //region when
         logger.log(new int[][][][] {{{{0}}}});
+        //logger.log(new int[][][][] {{{{}}}});
         logger.close();
         //endregion
 
@@ -98,6 +99,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     public void shouldLogIntegersWithOneMethodCall() throws IOException {
         //region when
         logger.log(-1, 0, 1, 3);
+        //logger.log(new int[][] {{}});
         logger.close();
         //endregion
 

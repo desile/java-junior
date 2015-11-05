@@ -5,16 +5,24 @@ import com.jet.present.Printable;
 
 
 /**
- * Created by DeSile on 02.11.2015.
+ * Состояние для логирования Char
  */
 public class LoggerCharState extends LoggerState {
 
     private char buffer;
 
+/**
+ * Создает экземпляр состояния для входных данных типа Char
+ * @param printer Средство для вывода
+ * @param decorator Средство для декорирования вывода
+*/
     public LoggerCharState(Printable printer, LoggerDecorator decorator){
         super(printer,decorator);
     }
 
+    /**
+     * Печатает буфер состояния.
+     */
     @Override
     public void printBuffer() {
         printer.print(decorator.decorate("CHAR",""+buffer));

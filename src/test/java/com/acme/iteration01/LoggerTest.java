@@ -28,11 +28,13 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         logger.log(0);
         logger.log(-1);
         logger.close();
+        logger.log(0);
+        logger.close();
         //endregion
 
         //region then
         assertSysoutContains("primitive: ");
-        assertSysoutEquals("primitive: 0" + SEP());
+        assertSysoutEquals("primitive: 0" + SEP() + "primitive: 0" + SEP());
         //endregion
     }
 
@@ -104,14 +106,15 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     @Test
     public void shouldLogReference() throws IOException {
         //region when
-        logger.log(new Object());
-        logger.log(new Object());
+        Object objnull = null;
+        Object obj = new Object();
+        logger.log(objnull);
+        logger.log(obj);
         logger.close();
         //endregion
 
         //region then
-        assertSysoutContains("reference: ");
-        assertSysoutContains("@");
+        assertSysoutEquals("reference: " + objnull + SEP() + "reference: " + obj + SEP());
         //endregion
     }
 }

@@ -4,7 +4,7 @@ import com.acme.LoggerDecorator;
 import com.jet.present.Printable;
 
 /**
- * Created by DeSile on 02.11.2015.
+ * Состояние для логирования Integer
  */
 public class LoggerSumState extends LoggerState {
 
@@ -19,11 +19,22 @@ public class LoggerSumState extends LoggerState {
         }
     }
 
+    /**
+     * Создает экземпляр состояния для входных данных типа Integer
+     * @param printer Средство для вывода
+     * @param decorator Средство для декорирования вывода
+     */
     public LoggerSumState(Printable printer, LoggerDecorator decorator){
         super(printer, decorator);
         buffer = 0;
     }
 
+
+    /**
+     * Добавление в буфер числа, суммируя со значением буфера.
+     * Метод может вызвать @see LoggerSumState#printBuffer(), если произошло переполнение буфера.
+     * @param msg Число для добавления в буфер.
+     */
     @Override
     public void toBuffer(int msg){
         if(isIntegerOverflow((long)msg+buffer)){
@@ -34,6 +45,9 @@ public class LoggerSumState extends LoggerState {
         }
     }
 
+    /**
+     * Печатает буфер состояния и сбрасывает буфер.
+     */
     @Override
     public void printBuffer(){
         printer.print(decorator.decorate("INT", ""+buffer));
