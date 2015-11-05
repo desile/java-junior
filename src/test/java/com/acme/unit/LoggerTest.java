@@ -1,6 +1,7 @@
 package com.acme.unit;
 
 import com.acme.Logger;
+import com.acme.LoggerStateFactory;
 import com.acme.states.*;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,7 +1,7 @@
 package com.acme.unit;
 
-import com.acme.LoggerDecorator;
-import com.acme.LoggerPrefixDecorator;
+import com.acme.decorator.LoggerDecorator;
+import com.acme.decorator.LoggerPrefixDecorator;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -1,10 +1,8 @@
 package com.acme.unit;
 
-import com.acme.LoggerDecorator;
-import com.acme.LoggerPrefixDecorator;
+import com.acme.decorator.LoggerPrefixDecorator;
 import com.acme.states.*;
 import com.jet.present.ConsolePrinter;
-import com.jet.present.Printable;
 import org.junit.Before;
 import org.junit.Test;
 

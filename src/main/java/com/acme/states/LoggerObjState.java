@@ -1,6 +1,6 @@
 package com.acme.states;
 
-import com.acme.LoggerDecorator;
+import com.acme.decorator.LoggerDecorator;
 import com.jet.present.Printable;
 
 /**

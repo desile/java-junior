@@ -1,9 +1,7 @@
 package com.acme.unit;
 
-import com.acme.Logger;
 import com.acme.states.LoggerState;
-import com.acme.states.LoggerStateFactory;
-import com.acme.states.LoggerStringState;
+import com.acme.LoggerStateFactory;
 import com.jet.present.ConsolePrinter;
 import org.junit.Before;
 import org.junit.Test;

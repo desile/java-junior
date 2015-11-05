@@ -1,4 +1,6 @@
-package com.acme;
+package com.acme.decorator;
+
+import com.acme.decorator.LoggerDecorator;
 
 import java.util.Map;
 
