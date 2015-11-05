@@ -52,7 +52,7 @@ public class LoggerStringState extends LoggerState {
      */
     @Override
     public void printBuffer(){
-        printer.print(decorator.decorate("STRING",((numOfBuffer < 2) ? buffer : buffer + " (x" + numOfBuffer + ")")));
+        printer.print(decorator.decorate("STRING",(numOfBuffer < 2) ? buffer : buffer + " (x" + numOfBuffer + ")"));
             buffer = "";
             numOfBuffer = 0;
 

@@ -22,10 +22,12 @@ public class LoggerObjState extends LoggerState {
     /**
      * Печатает буфер состояния.
      */
+    @Override
     public void printBuffer(){
         printer.print(decorator.decorate("OBJ",buffer+""));
     }
 
+    @Override
     public void toBuffer(Object msg){
         buffer = msg;
     }

@@ -1,6 +1,6 @@
 package com.acme;
 
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by DeSile on 03.11.2015.
@@ -9,6 +9,6 @@ public interface LoggerDecorator {
 
     String decorate(String src, String msg);
 
-    void setDecor(HashMap<String,String> decor);
+    void setDecor(Map<String,String> decor);
 
 }

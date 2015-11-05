@@ -4,7 +4,6 @@ package com.acme;
 import com.acme.states.*;
 import com.jet.present.ConsolePrinter;
 import com.jet.present.Printable;
-import org.mockito.internal.matchers.Null;
 
 
 /**
@@ -15,11 +14,7 @@ public class Logger {
     private  Printable printer = new ConsolePrinter();
 
     private  LoggerStateFactory lsFactory = new LoggerStateFactory(printer);
-    private  LoggerState state;
-
-    {
-        state = lsFactory.setToComState(null);
-    }
+    private  LoggerState state = lsFactory.setToComState(null);
 
 
     //Сброс буферов и состояний
@@ -128,19 +123,6 @@ public class Logger {
         if(message.length == 0){
             throw new IllegalArgumentException("Empty array");
         }
-        /*state.printBuffer();
-        StringBuilder messageBuffer = new StringBuilder();
-        printer.print("primitives matrix: {");
-        for(int[] row : message){
-            for(int i : row){
-                messageBuffer.append(i);
-                messageBuffer.append(", ");
-            }
-            messageBuffer.delete(messageBuffer.length() - 2, messageBuffer.length());
-            printer.print("{" + messageBuffer.toString() + "}");
-            messageBuffer.setLength(0);
-        }
-        printer.print("}");*/
         for(int[] i : message){
             log(i);
         }
@@ -174,30 +156,7 @@ public class Logger {
         if(message.length == 0){
             throw new IllegalArgumentException("Empty array");
         }
-        /*state.printBuffer();
-        state = new LoggerState(printer, lsFactory.getDecorator());
 
-        StringBuilder messageBuffer = new StringBuilder();
-        printer.print("primitives multimatrix: {");
-        for(int[][][] i3 : message){
-            printer.print("{");
-            for(int[][] i2 : i3){
-                printer.print("{");
-                for(int[] i1 : i2){
-                    printer.print("{");
-                    for(int i : i1){
-                        messageBuffer.append(i);
-                        messageBuffer.append(", ");
-                    }
-                    messageBuffer.delete(messageBuffer.length() - 2, messageBuffer.length());
-                    printer.print(messageBuffer.toString());
-                    printer.print("}");
-                }
-                printer.print("}");
-            }
-            printer.print("}");
-        }
-        printer.print("}");*/
         for(int[][][] i3 : message){
             if(i3 == null){
                 throw new NullPointerException("Some inner arrays is null");

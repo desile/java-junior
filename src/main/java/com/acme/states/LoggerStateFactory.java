@@ -12,7 +12,6 @@ import java.util.Map;
  */
 public class LoggerStateFactory {
 
-    private Printable printer;
     private LoggerDecorator decorator;
 
     private LoggerState boolState;
@@ -22,10 +21,10 @@ public class LoggerStateFactory {
     private LoggerState sumState;
     private LoggerState comState;
 
-    private HashMap<String,String> decor;
+    private Map<String,String> decor;
 
     public LoggerStateFactory(Printable printer){
-        this.printer = printer;
+
         decor = new HashMap<>();
         decorator = new LoggerPrefixDecorator(decor);
 
@@ -44,7 +43,7 @@ public class LoggerStateFactory {
         //init decorator
     }
 
-    public void setDecorMap(HashMap<String,String> decor){
+    public void setDecorMap(Map<String,String> decor){
         this.decor = decor;
         decorator.setDecor(decor);
     }
@@ -68,9 +67,7 @@ public class LoggerStateFactory {
     }
 
     public LoggerState setToStringState(LoggerState state){
-        //printer.print("String");
         if(state != stringState){
-            //printer.print("flushed");
             state.printBuffer();
         }
         return stringState;
@@ -84,7 +81,6 @@ public class LoggerStateFactory {
     }
 
     public LoggerState setToComState(LoggerState state){
-        //printer.print("asshole");
         if(state!=null){
             state.printBuffer();
         }

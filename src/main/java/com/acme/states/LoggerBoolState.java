@@ -28,7 +28,7 @@ public class LoggerBoolState extends LoggerState {
      */
     @Override
     public void printBuffer(){
-        printer.print(decorator.decorate("BOOL",(buffer ? "true" : "false")));
+        printer.print(decorator.decorate("BOOL",buffer ? "true" : "false"));
     }
 
     /**

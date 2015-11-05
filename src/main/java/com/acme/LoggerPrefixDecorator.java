@@ -1,15 +1,16 @@
 package com.acme;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by DeSile on 03.11.2015.
  */
 public class LoggerPrefixDecorator implements LoggerDecorator {
 
-    private HashMap<String,String> decor;
+    private Map<String,String> decor;
 
-    public LoggerPrefixDecorator(HashMap<String,String> decor){
+    public LoggerPrefixDecorator(Map<String,String> decor){
         this.decor = decor;
     }
 
@@ -19,7 +20,7 @@ public class LoggerPrefixDecorator implements LoggerDecorator {
     }
 
     @Override
-    public void setDecor(HashMap<String, String> decor) {
+    public void setDecor(Map<String, String> decor) {
         this.decor = decor;
     }
 

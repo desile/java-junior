@@ -99,18 +99,83 @@ public class LoggerTest {
     }
 
     @Test(expected = NullPointerException.class)
-    public void shouldEmptyArrayThrowsException(){
+    public void shouldLoggedNullArrayThrowsException(){
         int[] nullArr = null;
         logger.log(nullArr);
+        logger.close();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldLoggedEmptyArrayThrowsException(){
+        int[] emptyArr = {};
+        logger.log(emptyArr);
+        logger.close();
     }
 
     @Test(expected = NullPointerException.class)
-    public void shouldEmptyMultiArrayWithNullArraysThrowsException(){
+    public void shouldLoggedEmptyMultiArrayWithNullArraysThrowsException(){
         int[][] nullArr = new int[2][];
         nullArr[0] = null;
         nullArr[1] = null;
         logger.log(nullArr);
+        logger.close();
     }
+
+    @Test(expected = NullPointerException.class)
+    public void shouldLoggedNullStringThrowsException(){
+        String nullString = null;
+        logger.log(nullString);
+        logger.close();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldLoggedEmptyStringThrowsException(){
+        String emptyString = "";
+        logger.log(emptyString);
+        logger.close();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldLoggedEmptyTwoDimensionalArraysThrowsException(){
+        int[][] emptyArr = {{}};
+        logger.log(emptyArr);
+        logger.close();
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void shouldLoggedNullTwoDimensionalArraysThrowsException(){
+        int[][] emptyArr = null;
+        logger.log(emptyArr);
+        logger.close();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldLoggedEmptyStringArrayThrowsException(){
+        logger.log(new String[]{});
+        logger.close();
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void shouldLoggedNullStringArrayThrowsException(){
+        String[] nullArr = null;
+        logger.log(nullArr);
+        logger.close();
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void shouldLoggedNullMultiArrayThrowsException(){
+        int[][][][] nullArr = null;
+        logger.log(nullArr);
+        logger.close();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldLoggedEmptyMultiArrayThrowsException(){
+        int[][][][] emptyArr = {{{{}}}};
+        logger.log(emptyArr);
+        logger.close();
+    }
+
 
 
 }

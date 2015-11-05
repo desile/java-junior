@@ -31,7 +31,7 @@ public class LoggerState {
      * @param stringBuffer
      */
     public void toBuffer(String stringBuffer) {
-        //throw new OperationNotSupportedException();
+        //Метод заглушка, переопределяетя под специфические задачи в дочерних классах.
     }
 
     /**
@@ -39,7 +39,7 @@ public class LoggerState {
      * @param num
      */
     public void toBuffer(int num) {
-        //throw new OperationNotSupportedException();
+        //Метод заглушка, переопределяетя под специфические задачи в дочерних классах.
     }
 
     /**
@@ -47,7 +47,7 @@ public class LoggerState {
      * @param msg
      */
     public void toBuffer(char msg){
-
+        //Метод заглушка, переопределяетя под специфические задачи в дочерних классах.
     }
 
     /**
@@ -55,7 +55,7 @@ public class LoggerState {
      * @param msg
      */
     public void toBuffer(boolean msg){
-
+        //Метод заглушка, переопределяетя под специфические задачи в дочерних классах.
     }
 
     /**
@@ -63,14 +63,14 @@ public class LoggerState {
      * @param ref
      */
     public void toBuffer(Object ref){
-
+        //Метод заглушка, переопределяетя под специфические задачи в дочерних классах.
     }
 
     /**
      * Метод-заглушка
      */
     public void printBuffer(){
-
+        //Метод заглушка, переопределяетя под специфические задачи в дочерних классах.
     }
 
 
