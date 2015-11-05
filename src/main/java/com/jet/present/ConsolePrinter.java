@@ -11,22 +11,8 @@ public class ConsolePrinter implements Printable {
      */
     @Override
     public void print(String msg){
+        if(msg == null) throw new NullPointerException("String is null");
         System.out.println(msg);
-    }
-
-    /**
-     * Передает в стандартный поток вывода входной строковый аргумент.
-     * @param msg Данные для вывода
-     * @param newLine Если true - то каретка после вывода аргумента будет переведена на новую строку
-     */
-    @Override
-    public void print(String msg, boolean newLine){
-        if(newLine) {
-            print(msg);
-        }
-        else {
-            System.out.print(msg);
-        }
     }
 
 }

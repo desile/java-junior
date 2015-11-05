@@ -1,9 +1,15 @@
 package com.jet.present;
 
+/**
+ * Интерфейс вывода сообщений.
+ */
 public interface Printable {
 
-	void print(String msg);
-
-	void print(String msg, boolean newLine);
+	/**
+	 * Печать сообщения.
+	 * @param msg Сообщение.
+	 * @throws NullPointerException
+	 */
+	void print(String msg) throws NullPointerException;
 
 }

@@ -14,15 +14,13 @@ public class PrinterTest implements SysoutCaptureAndAssertionAbility{
 
     }
 
-    @Test
+    //@Test
     public void consolePrinterTest(){
         Printable printer = new ConsolePrinter();
         printer.print("123");
         printer.print("Immolate improved!");
-        printer.print("sup", false);
-        printer.print("sup", true);
 
-        assertSysoutEquals("123" + System.lineSeparator() + "Immolate improved!" + System.lineSeparator() + "supsup" + System.lineSeparator());
+        assertSysoutEquals("123" + System.lineSeparator() + "Immolate improved!" + System.lineSeparator());
     }
 
 }
