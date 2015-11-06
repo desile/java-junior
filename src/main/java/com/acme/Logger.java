@@ -5,6 +5,7 @@ import com.acme.states.*;
 import com.jet.present.ConsolePrinter;
 import com.jet.present.Printable;
 
+//TODO: Ввести иерархию исключений.
 
 /**
  * Средство для логирования входных данных с обработкой в режиме реального времени.
@@ -24,6 +25,7 @@ public class Logger {
      */
     public  void close(){
         state = lsFactory.setToComState(state);
+        printer.reset();
     }
 
     public LoggerStateFactory getStateFactory(){

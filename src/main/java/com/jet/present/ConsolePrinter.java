@@ -1,7 +1,7 @@
 package com.jet.present;
 
 /**
- * Created by DeSile on 03.11.2015.
+ * Класс для вывода в консоль.
  */
 public class ConsolePrinter implements Printable {
 
@@ -15,4 +15,11 @@ public class ConsolePrinter implements Printable {
         System.out.println(msg);
     }
 
+    /**
+     * Переинициализация принтера
+     */
+    @Override
+    public void reset(){
+        //пустышка
+    }
 }
