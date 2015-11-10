@@ -19,7 +19,7 @@ public class FilePrinter implements Printable {
     }
 
     private void makeNewFile(){
-        outputFile = new File(makeFileName()+".txt");
+        outputFile = new File(filePrefix + makeFileName()+".txt");
     }
 
     /**
