@@ -7,14 +7,14 @@ import com.acme.exceptions.PrinterException;
  */
 public class Printers {
 
-    private Printable[] printers;
+    private Printable[] printerCollection;
 
     /**
      * Инициализация коллекции.
      * @param printers Средства для печати.
      */
     public Printers(Printable... printers){
-        this.printers = printers;
+        this.printerCollection = printers;
     }
 
     /**
@@ -22,7 +22,7 @@ public class Printers {
      * @param msg Сообщение для печати.
      */
     public void print(String msg) throws PrinterException{
-        for(Printable p : printers){
+        for(Printable p : printerCollection){
             p.print(msg);
         }
     }
@@ -31,7 +31,7 @@ public class Printers {
      * Последовательный вызов метода сброса/очистки потока у всех принтеров в коллекции.
      */
     public void reset() throws PrinterException{
-        for(Printable p : printers){
+        for(Printable p : printerCollection){
             p.reset();
         }
     }

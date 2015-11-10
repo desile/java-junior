@@ -6,6 +6,7 @@ import com.acme.exceptions.LoggerException;
 import com.acme.exceptions.StateException;
 import com.acme.states.*;
 import com.jet.present.ConsolePrinter;
+import com.jet.present.Printable;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -182,6 +183,11 @@ public class LoggerTest {
         int[][][][] emptyArr = new int[0][0][0][0];
         logger.log(emptyArr);
         logger.close();
+    }
+
+    @Test(expected = LoggerException.class)
+    public void shouldLoggerConstructorWithEmptyArgsThrowException() throws LoggerException{
+        Logger log = new Logger(new Printable[]{});
     }
 
 

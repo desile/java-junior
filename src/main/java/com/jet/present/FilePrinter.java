@@ -14,14 +14,6 @@ public class FilePrinter implements Printable {
     private String filePrefix;
     private BufferedWriter bw;
 
-    private String makeFileName(){
-        return "log";
-    }
-
-    private void makeNewFile(){
-        outputFile = new File(filePrefix + makeFileName()+".txt");
-    }
-
     /**
      * Конструктор, добавляющий к лог-файлу префикс.
      * @param prefix Префикс к имени файла.
@@ -37,6 +29,16 @@ public class FilePrinter implements Printable {
             throw new PrinterException("File is not found",e);
         }
     }
+
+
+    private String makeFileName(){
+        return "log";
+    }
+
+    private void makeNewFile(){
+        outputFile = new File(filePrefix + makeFileName()+".txt");
+    }
+
 
 
     /**

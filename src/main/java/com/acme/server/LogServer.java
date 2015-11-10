@@ -8,7 +8,6 @@ import com.jet.present.Printable;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.concurrent.*;
 
 /**
@@ -25,7 +24,7 @@ public class LogServer {
     public static void main(String[] args) {
 
         //TEMPORARY! THEN MOVE TO ANOTHER CLASS
-        Printable printer = new ConsolePrinter();
+        Printable printer = new ConsolePrinter();//Change to Printers class
 
         ServerMessageBuffer smb = new ServerMessageBuffer();
         ExecutorService pool = Executors.newFixedThreadPool(MAX_POOL);
@@ -43,11 +42,9 @@ public class LogServer {
 
 
 
-
                 Future<Void> f = pool.submit(() -> {
                         String readLine;
                         while ((readLine = fromClientStream.readLine()) != null) {
-                            //toFileStream.write(readLine);
                             if (smb.add(readLine)) {
                                 smb.flush(printer);
                             }

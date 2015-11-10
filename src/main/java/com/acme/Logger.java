@@ -41,7 +41,7 @@ public class Logger {
         try {
             state = lsFactory.setToComState(null);
         } catch (StateException e) {
-            //IN THIS CASE THE ERROR CANNOT BE
+            throw new LoggerException("Something wrong with initializating state in factory.",e);
         }
     }
 
@@ -107,7 +107,7 @@ public class Logger {
         try {
             state = lsFactory.setToCharState(state);
         } catch (StateException e) {
-            throw new LoggerException("Problem with logging char");
+            throw new LoggerException("Problem with logging char",e);
         }
         state.toBuffer(message);
     }

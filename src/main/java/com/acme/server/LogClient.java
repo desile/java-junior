@@ -13,16 +13,9 @@ import com.jet.present.ServerPrinter;
  */
 public class LogClient {
 
-    public static void main(String[] args){
-        Printable printer = null;
-        try {
-            printer = new ServerPrinter(8999);
-        } catch (PrinterException e) {
-            e.printStackTrace();
-        }
-        Logger logger;
-        try {
-            logger = new Logger(printer,new ConsolePrinter());
+    public static void main(String[] args) throws PrinterException, LoggerException{
+        Printable printer = new ServerPrinter(8999);
+        Logger logger = new Logger(printer,new ConsolePrinter());
 
 
             logger.log(123);
@@ -36,31 +29,9 @@ public class LogClient {
             logger.close();
 
 
-            if(printer instanceof ServerPrinter){
-                ((ServerPrinter) printer).closeConnection();
-            }
-
-        } catch (PrinterException e) {
-            //TEMPORARY EMPTINESS
-        } catch (LoggerException e){
-            try {
-                printer.print("[ERROR]: " + e);
-                for(Throwable supressed : e.getSuppressed()){
-                    printer.print(Logger.ERR_MSG + supressed);
-                }
-            } catch (PrinterException e1) {
-                //TEMPORARY EMPTINESS
-            }
-        }finally {
-            try {
-                ((ServerPrinter)printer).closeConnection();
-            } catch (PrinterException e) {
-                e.printStackTrace();
-                //TEMPORARY EMPTINESS
-            }
+        if(printer instanceof ServerPrinter) {
+            ((ServerPrinter) printer).closeConnection();
         }
-
-
     }
 
 }

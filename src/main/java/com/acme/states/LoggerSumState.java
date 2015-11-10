@@ -13,10 +13,6 @@ public class LoggerSumState extends LoggerState {
 
     private int buffer;
 
-    private boolean isIntegerOverflow(long number){
-        return number > Integer.MAX_VALUE || number < Integer.MIN_VALUE;
-    }
-
     /**
      * Создает экземпляр состояния для входных данных типа Integer
      * @param printer Средство для вывода
@@ -26,6 +22,12 @@ public class LoggerSumState extends LoggerState {
         super(printer, decorator);
         buffer = 0;
     }
+
+    private boolean isIntegerOverflow(long number){
+        return number > Integer.MAX_VALUE || number < Integer.MIN_VALUE;
+    }
+
+
 
 
     /**

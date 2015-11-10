@@ -30,7 +30,7 @@ public class ServerMessageBuffer {
      */
     public boolean add(String msg){
         buffer.add(msg);
-        return buffer.size() != MAX_SIZE_OF_MSG_BUFFER;
+        return buffer.size() == MAX_SIZE_OF_MSG_BUFFER;
     }
 
     /**
@@ -49,10 +49,10 @@ public class ServerMessageBuffer {
         Collections.sort(buffer, new Comparator<String>() {
             @Override
             public int compare(String o1, String o2) {
-                if(o1.substring(0,7).equals("[ERROR]") && !o2.substring(0,7).equals("[ERROR]")){
-                    return 1;
+                if("[ERROR]".equals(o1.substring(0,7)) && !"[ERROR]".equals(o2.substring(0,7))){
+                    return -1;
                 }
-                else return 0;
+                else return 1;
             }
         });
     }

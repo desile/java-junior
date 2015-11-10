@@ -4,8 +4,6 @@ import com.acme.exceptions.PrinterException;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Collection;
 
 /**
  * Класс для передачи сообщения серверу.
@@ -15,6 +13,7 @@ public class ServerPrinter implements Printable {
     private int serverPort;
     private Socket socket;
     private BufferedWriter bw;
+    private String serverIP = "127.0.0.1";
 
     /**
      * Размер буфера в количестве сообщений.
@@ -31,7 +30,7 @@ public class ServerPrinter implements Printable {
 
         serverPort = port;
         try {
-            socket = new Socket("127.0.0.1",serverPort);
+            socket = new Socket(serverIP,serverPort);
             bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(),"windows-1251"));
         } catch (IOException e) {
             throw new PrinterException("Problem with opening socket",e);

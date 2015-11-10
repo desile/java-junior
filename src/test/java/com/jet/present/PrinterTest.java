@@ -8,6 +8,8 @@ import org.junit.Test;
 import java.io.*;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 public class PrinterTest implements SysoutCaptureAndAssertionAbility{
 
@@ -17,6 +19,19 @@ public class PrinterTest implements SysoutCaptureAndAssertionAbility{
     public void setUpSystemOut() throws IOException {
         flushSysout();
         captureSysout();
+    }
+
+    @Test
+    public void printerCollectionTest() throws PrinterException {
+        String testMsg = "Test message";
+        ConsolePrinter cp1 = mock(ConsolePrinter.class);
+        ConsolePrinter cp2 = mock(ConsolePrinter.class);
+        ConsolePrinter cp3 = mock(ConsolePrinter.class);
+        Printers ps = new Printers(cp1,cp2,cp3);
+        ps.print(testMsg);
+        verify(cp1).print(testMsg);
+        verify(cp2).print(testMsg);
+        verify(cp3).print(testMsg);
     }
 
     @Test
@@ -47,5 +62,12 @@ public class PrinterTest implements SysoutCaptureAndAssertionAbility{
         String fileStr = FileUtils.readFileToString(((FilePrinter)printer).getCurrentFile());
         assertEquals(str1 + SEP() + str2 + SEP(), fileStr);
     }
+
+    @Test(expected = PrinterException.class)
+    public void shouldServerPrinterThrowExceptionWhenTryingToConnectToIncorrectPort() throws PrinterException{
+        int numberPortThatShouldBeFreeOrEmpty = 22222;
+        ServerPrinter sp = new ServerPrinter(numberPortThatShouldBeFreeOrEmpty);
+    }
+
 
 }
