@@ -2,15 +2,22 @@ package com.acme.iteration03;
 
 import com.acme.Logger;
 import com.acme.SysoutCaptureAndAssertionAbility;
+import com.acme.exceptions.LoggerException;
+import com.jet.present.ConsolePrinter;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.Ignore;
+import sun.rmi.runtime.Log;
 
 import java.io.IOException;
 
 @Ignore
 public class LoggerTest implements SysoutCaptureAndAssertionAbility {
-    private Logger logger = new Logger();
+    private Logger logger;
+
+    public LoggerTest() throws LoggerException {
+        logger = new Logger(new ConsolePrinter());
+    }
 
     //region given
     @Before
@@ -24,7 +31,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     //TODO: implement logger solution to match specification as tests
 
     @Test
-    public void shouldLogIntegersArray() throws IOException {
+    public void shouldLogIntegersArray() throws LoggerException {
         //region when
         logger.log(new int[]{-1, 0, 1});
         logger.close();
@@ -55,7 +62,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //endregion
     }*/
     @Test
-    public void shouldLogIntegersMatrix() throws IOException {
+    public void shouldLogIntegersMatrix() throws LoggerException {
         //region when
         logger.log(new int[][]{{-1, 0, 1}, {1, 2, 4}, {-1, -2, -3}});
         logger.close();
@@ -69,7 +76,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     }
 
     @Test
-    public void shouldLogIntegersMulitidimentionalArray() throws IOException {
+    public void shouldLogIntegersMulitidimentionalArray() throws LoggerException {
         //region when
         logger.log(new int[][][][] {{{{0}}}});
         //logger.log(new int[][][][] {{{{}}}});
@@ -84,7 +91,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     }
 
     @Test
-    public void shouldLogStringsWithOneMethodCall() throws IOException {
+    public void shouldLogStringsWithOneMethodCall() throws LoggerException {
         //region when
         logger.log("str1", "string 2", "str 3", "str 3");
         logger.close();
@@ -96,7 +103,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     }
 
     @Test
-    public void shouldLogIntegersWithOneMethodCall() throws IOException {
+    public void shouldLogIntegersWithOneMethodCall() throws LoggerException {
         //region when
         logger.log(-1, 0, 1, 3);
         //logger.log(new int[][] {{}});
@@ -109,7 +116,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     }
 
     @Test
-    public void shouldCorrectDealWithIntegerOverflowWhenOneMethodCall() throws IOException {
+    public void shouldCorrectDealWithIntegerOverflowWhenOneMethodCall() throws LoggerException {
         //region when
         logger.log(1);
         logger.log("str");

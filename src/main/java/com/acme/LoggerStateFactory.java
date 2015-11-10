@@ -2,8 +2,9 @@ package com.acme;
 
 import com.acme.decorator.LoggerDecorator;
 import com.acme.decorator.LoggerPrefixDecorator;
+import com.acme.exceptions.StateException;
 import com.acme.states.*;
-import com.jet.present.Printable;
+import com.jet.present.Printers;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,19 +28,19 @@ public class LoggerStateFactory {
 
     /**
      * Конструктор фабрики инстанцирует объекты всех состояний и создает декоратор.
-     * @param printer Средство вывода
+     * @param printers Средство вывода
      */
-    public LoggerStateFactory(Printable printer){
+    public LoggerStateFactory(Printers printers){
 
         decor = new HashMap<>();
         decorator = new LoggerPrefixDecorator(decor);
 
-        boolState = new LoggerBoolState(printer,decorator);
-        charState = new LoggerCharState(printer,decorator);
-        objState = new LoggerObjState(printer,decorator);
-        stringState = new LoggerStringState(printer,decorator);
-        sumState = new LoggerSumState(printer,decorator);
-        comState = new LoggerState(printer,decorator);
+        boolState = new LoggerBoolState(printers,decorator);
+        charState = new LoggerCharState(printers,decorator);
+        objState = new LoggerObjState(printers,decorator);
+        stringState = new LoggerStringState(printers,decorator);
+        sumState = new LoggerSumState(printers,decorator);
+        comState = new LoggerState(printers,decorator);
         //filling decor map
         decor.put("BOOL","primitive");
         decor.put("CHAR","char");
@@ -71,7 +72,7 @@ public class LoggerStateFactory {
      * @param state текущее состояние
      * @return состояние Bool
      */
-    public LoggerState setToBoolState(LoggerState state){
+    public LoggerState setToBoolState(LoggerState state) throws StateException{
         state.printBuffer();
         return boolState;
     }
@@ -81,7 +82,7 @@ public class LoggerStateFactory {
      * @param state текущее состояние
      * @return состояние Char
      */
-    public LoggerState setToCharState(LoggerState state){
+    public LoggerState setToCharState(LoggerState state) throws StateException{
         state.printBuffer();
         return charState;
     }
@@ -91,7 +92,7 @@ public class LoggerStateFactory {
      * @param state текущее состояние
      * @return состояние Object
      */
-    public LoggerState setToObjState(LoggerState state){
+    public LoggerState setToObjState(LoggerState state) throws StateException{
         state.printBuffer();
         return objState;
     }
@@ -101,7 +102,7 @@ public class LoggerStateFactory {
     * @param state текущее состояние
     * @return состояние String
     */
-    public LoggerState setToStringState(LoggerState state){
+    public LoggerState setToStringState(LoggerState state) throws StateException{
         if(state != stringState){
             state.printBuffer();
         }
@@ -113,7 +114,7 @@ public class LoggerStateFactory {
      * @param state текущее состояние
      * @return состояние Sum
      */
-    public LoggerState setToSumState(LoggerState state){
+    public LoggerState setToSumState(LoggerState state) throws StateException{
         if(state != sumState){
             state.printBuffer();
         }
@@ -125,7 +126,7 @@ public class LoggerStateFactory {
      * @param state текущее состояние
      * @return общее состояние
      */
-    public LoggerState setToComState(LoggerState state){
+    public LoggerState setToComState(LoggerState state) throws StateException{
         if(state!=null){
             state.printBuffer();
         }

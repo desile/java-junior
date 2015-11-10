@@ -1,11 +1,8 @@
 package com.acme.states;
 
 import com.acme.decorator.LoggerDecorator;
-import com.jet.present.Printable;
-
-/**
- * Created by DeSile on 02.11.2015.
- */
+import com.acme.exceptions.StateException;
+import com.jet.present.Printers;
 
 /**
  * Базовый класс состояния, который ирает роль как родителя всех специфических состояний, так и заглушки для ситуаций,<br>
@@ -13,16 +10,16 @@ import com.jet.present.Printable;
  */
 public class LoggerState {
 
-    protected Printable printer;
+    protected Printers printer;
     protected LoggerDecorator decorator;
 
     /**
      * Создаем экземпляр общего состояния.
-     * @param printer
+     * @param printers
      * @param decorator
      */
-    public LoggerState(Printable printer, LoggerDecorator decorator){
-        this.printer = printer;
+    public LoggerState(Printers printers, LoggerDecorator decorator){
+        this.printer = printers;
         this.decorator = decorator;
     }
 
@@ -30,7 +27,7 @@ public class LoggerState {
      * Метод-заглушка
      * @param stringBuffer
      */
-    public void toBuffer(String stringBuffer) {
+    public void toBuffer(String stringBuffer) throws StateException{
         //Метод заглушка, переопределяетя под специфические задачи в дочерних классах.
     }
 
@@ -38,7 +35,7 @@ public class LoggerState {
      * Метод-заглушка
      * @param num
      */
-    public void toBuffer(int num) {
+    public void toBuffer(int num) throws StateException{
         //Метод заглушка, переопределяетя под специфические задачи в дочерних классах.
     }
 
@@ -69,7 +66,7 @@ public class LoggerState {
     /**
      * Метод-заглушка
      */
-    public void printBuffer(){
+    public void printBuffer() throws StateException {
         //Метод заглушка, переопределяетя под специфические задачи в дочерних классах.
     }
 

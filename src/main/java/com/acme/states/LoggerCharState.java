@@ -1,7 +1,10 @@
 package com.acme.states;
 
+import com.acme.Logger;
 import com.acme.decorator.LoggerDecorator;
-import com.jet.present.Printable;
+import com.acme.exceptions.PrinterException;
+import com.acme.exceptions.StateException;
+import com.jet.present.Printers;
 
 
 /**
@@ -16,7 +19,7 @@ public class LoggerCharState extends LoggerState {
  * @param printer Средство для вывода
  * @param decorator Средство для декорирования вывода
 */
-    public LoggerCharState(Printable printer, LoggerDecorator decorator){
+    public LoggerCharState(Printers printer, LoggerDecorator decorator){
         super(printer,decorator);
     }
 
@@ -24,8 +27,12 @@ public class LoggerCharState extends LoggerState {
      * Печатает буфер состояния.
      */
     @Override
-    public void printBuffer() {
-        printer.print(decorator.decorate("CHAR",""+buffer));
+    public void printBuffer() throws StateException {
+        try {
+            printer.print(Logger.MSG + decorator.decorate("CHAR",""+buffer));
+        } catch (PrinterException e) {
+            throw new StateException("Cant print char buffer",e);
+        }
     }
 
 

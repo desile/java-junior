@@ -1,7 +1,8 @@
 package com.jet.present;
 
+import com.acme.exceptions.PrinterException;
+
 import java.io.*;
-import java.util.Date;
 
 /**
  * Класс для вывода сообщения в лог-файл c генерируемым именем, зависящим от текущих даты и времени.
@@ -9,38 +10,32 @@ import java.util.Date;
 public class FilePrinter implements Printable {
 
     private File outputFile;
-    private static long fileId = 2;
 
     private String filePrefix;
+    private BufferedWriter bw;
 
     private String makeFileName(){
-        return "logs" + File.separator + filePrefix + (new Date(System.currentTimeMillis()).toString()).replace(" ","_").replace(":","-") + "_log";
+        return "log";
     }
 
     private void makeNewFile(){
         outputFile = new File(makeFileName()+".txt");
-        if(outputFile.exists()){
-            outputFile = new File(makeFileName() + "(" + fileId++ + ").txt");
-        }
-        else{
-            fileId = 2;
-        }
     }
 
     /**
      * Конструктор, добавляющий к лог-файлу префикс.
      * @param prefix Префикс к имени файла.
      */
-    public FilePrinter(String prefix){
+    public FilePrinter(String prefix) throws PrinterException{
         filePrefix = prefix;
         makeNewFile();
-    }
-
-    /**
-     * Конструктор, создающий лог файл без добавления префикса.
-     */
-    public FilePrinter(){
-        new FilePrinter("");
+        try {
+            bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filePrefix + makeFileName()+".txt"), "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            throw new PrinterException("Unknown encoding",e);
+        } catch (FileNotFoundException e) {
+            throw new PrinterException("File is not found",e);
+        }
     }
 
 
@@ -49,27 +44,32 @@ public class FilePrinter implements Printable {
      * @param msg Сообщение.
      */
     @Override
-    public void print(String msg) {
-        try (FileWriter fw = new FileWriter(outputFile, true)) {
-            fw.write(msg + System.lineSeparator());
+    public void print(String msg) throws PrinterException {
+        try {
+            bw.write(msg + System.lineSeparator());
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new PrinterException("Problem with writing to file",e);
         }
     }
 
     /**
      * Возвращает текущий логируемый файл.
-     * @return
+     * @return текущий логируемый файл.
      */
     public File getCurrentFile(){
         return outputFile;
     }
 
     /**
-     * Создание нового файла для записи логов.
+     * Сброс буфера
      */
-    public void reset(){
-        makeNewFile();
+    @Override
+    public void reset() throws PrinterException {
+        try {
+            bw.flush();
+        } catch (IOException e) {
+            throw new PrinterException("Cant flush stream",e);
+        }
     }
 
 }

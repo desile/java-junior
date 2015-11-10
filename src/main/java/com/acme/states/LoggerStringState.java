@@ -1,7 +1,10 @@
 package com.acme.states;
 
+import com.acme.Logger;
 import com.acme.decorator.LoggerDecorator;
-import com.jet.present.Printable;
+import com.acme.exceptions.PrinterException;
+import com.acme.exceptions.StateException;
+import com.jet.present.Printers;
 
 /**
  * Состояние для логирования String
@@ -16,7 +19,7 @@ public class LoggerStringState extends LoggerState {
      * @param printer Средство для вывода
      * @param decorator Средство для декорирования вывода
      */
-    public LoggerStringState(Printable printer, LoggerDecorator decorator){
+    public LoggerStringState(Printers printer, LoggerDecorator decorator){
         super(printer,decorator);
         buffer = "";
         numOfBuffer = 0;
@@ -30,7 +33,7 @@ public class LoggerStringState extends LoggerState {
      * @param msg Строка для добавления в буфер.
      */
     @Override
-    public void toBuffer(String msg){
+    public void toBuffer(String msg) throws StateException {
         if(buffer.isEmpty()) {
             buffer = msg;
             numOfBuffer = 1;
@@ -51,9 +54,13 @@ public class LoggerStringState extends LoggerState {
      * Печатает буфер состояния и сбрасывает буфер.
      */
     @Override
-    public void printBuffer(){
-        printer.print(decorator.decorate("STRING",(numOfBuffer < 2) ? buffer : buffer + " (x" + numOfBuffer + ")"));
-            buffer = "";
+    public void printBuffer() throws StateException {
+        try {
+            printer.print(Logger.MSG + decorator.decorate("STRING",(numOfBuffer < 2) ? buffer : buffer + " (x" + numOfBuffer + ")"));
+        } catch (PrinterException e) {
+            throw new StateException("Cant print string buffer",e);
+        }
+        buffer = "";
             numOfBuffer = 0;
 
     }

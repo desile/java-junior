@@ -1,8 +1,10 @@
 package com.acme.unit;
 
 import com.acme.decorator.LoggerPrefixDecorator;
+import com.acme.exceptions.StateException;
 import com.acme.states.*;
 import com.jet.present.ConsolePrinter;
+import com.jet.present.Printers;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,12 +15,12 @@ import static org.mockito.Mockito.*;
  */
 public class StatesTest {
 
-    ConsolePrinter printer;
+    Printers printer;
     LoggerPrefixDecorator decorator;
 
     @Before
     public void setPrinterMock(){
-        printer = mock(ConsolePrinter.class);
+        printer = mock(Printers.class);
     }
 
     @Before
@@ -27,7 +29,7 @@ public class StatesTest {
     }
 
     @Test
-    public void shouldStringAddedToStringBuffer(){
+    public void shouldStringAddedToStringBuffer() throws StateException{
         LoggerState state = new LoggerStringState(printer,decorator);
         state.toBuffer("Kek");
         state.printBuffer();
@@ -35,7 +37,7 @@ public class StatesTest {
     }
 
     @Test
-    public void shouldStringStateSummingStrings(){
+    public void shouldStringStateSummingStrings()throws StateException{
         LoggerState state = new LoggerStringState(printer,decorator);
         state.toBuffer("Kek");
         state.toBuffer("Kek");
@@ -45,7 +47,7 @@ public class StatesTest {
 
 
     @Test
-    public void shouldStringStateCallPrintWhenNextStringNotEqualsToPrevious(){
+    public void shouldStringStateCallPrintWhenNextStringNotEqualsToPrevious()throws StateException{
         LoggerState state = new LoggerStringState(printer,decorator);
         state.toBuffer("First");
         state.toBuffer("Second");
@@ -55,7 +57,7 @@ public class StatesTest {
     }
 
     @Test
-    public void shouldSumStateSummingNumbers(){
+    public void shouldSumStateSummingNumbers()throws StateException{
         LoggerState state = new LoggerSumState(printer,decorator);
         state.toBuffer(50);
         state.toBuffer(22);
@@ -66,7 +68,7 @@ public class StatesTest {
 
 
     @Test
-    public void shouldSumStatePreventOverflowing(){
+    public void shouldSumStatePreventOverflowing()throws StateException{
         LoggerState state = new LoggerSumState(printer,decorator);
         state.toBuffer(Integer.MAX_VALUE);
         state.toBuffer(10);
@@ -80,7 +82,7 @@ public class StatesTest {
 
 
     @Test
-    public void shouldBooleanAddedToBooleanBuffer(){
+    public void shouldBooleanAddedToBooleanBuffer()throws StateException{
         LoggerState state = new LoggerBoolState(printer,decorator);
         state.toBuffer(true);
         state.printBuffer();
@@ -91,7 +93,7 @@ public class StatesTest {
     }
 
     @Test
-    public void shouldObjectAddedToObjectStateBuffer(){
+    public void shouldObjectAddedToObjectStateBuffer()throws StateException{
         LoggerState state = new LoggerObjState(printer,decorator);
         Object obj = new Object();
         state.toBuffer(obj);
@@ -100,7 +102,7 @@ public class StatesTest {
     }
 
     @Test
-    public void shouldCharAddedToCharStateBuffer(){
+    public void shouldCharAddedToCharStateBuffer()throws StateException{
         LoggerState state = new LoggerCharState(printer,decorator);
         state.toBuffer('a');
         state.printBuffer();

@@ -1,10 +1,13 @@
 package com.acme.unit;
 
+import com.acme.exceptions.PrinterException;
+import com.acme.exceptions.StateException;
 import com.acme.states.LoggerState;
 import com.acme.LoggerStateFactory;
-import com.jet.present.ConsolePrinter;
+import com.jet.present.Printers;
 import org.junit.Before;
 import org.junit.Test;
+
 
 import static org.mockito.Mockito.*;
 
@@ -15,19 +18,19 @@ public class LoggerFactoryTest {
 
     private LoggerStateFactory factory;
     private LoggerState state;
-    private ConsolePrinter printer;
+    private Printers printer;
 
 
     @Before
-    public void initLogger(){
-        printer = mock(ConsolePrinter.class);
+    public void initLogger() throws StateException{
+        printer = mock(Printers.class);
 
         factory = new LoggerStateFactory(printer);
         state = factory.setToComState(null);
     }
 
     @Test
-    public void shouldStringBufferNotPrintedInsideStringState(){
+    public void shouldStringBufferNotPrintedInsideStringState() throws StateException,PrinterException{
         state = factory.setToStringState(state);//0
         state = factory.setToStringState(state);//0
         state = factory.setToStringState(state);//0
@@ -35,7 +38,7 @@ public class LoggerFactoryTest {
     }
 
     @Test
-    public void shouldIntegerBufferNotPrintedInsideSumState(){
+    public void shouldIntegerBufferNotPrintedInsideSumState() throws  StateException, PrinterException{
         state = factory.setToSumState(state);//0
         state = factory.setToSumState(state);//0
         state = factory.setToSumState(state);//0
@@ -43,7 +46,7 @@ public class LoggerFactoryTest {
     }
 
     @Test
-    public void shouldStatesSwitchCorrectly(){
+    public void shouldStatesSwitchCorrectly() throws StateException,PrinterException{
         state = factory.setToBoolState(state);//0: print not called because factory in ComState (com state hasnot print)
         state = factory.setToBoolState(state);//1
         state = factory.setToCharState(state);//2
@@ -55,7 +58,7 @@ public class LoggerFactoryTest {
     }
 
     @Test
-    public void shouldLogDifferentTypesInOneSession(){
+    public void shouldLogDifferentTypesInOneSession() throws StateException,PrinterException{
         state = factory.setToBoolState(state);
         state.toBuffer(true);
 
@@ -76,14 +79,14 @@ public class LoggerFactoryTest {
         state = factory.setToComState(state);
 
 
-        verify(printer).print("primitive: true");
-        verify(printer).print("char: a");
-        verify(printer).print("reference: " + obj);
-        verify(printer).print("primitive: 30");
+        verify(printer).print("[MSG]:primitive: true");
+        verify(printer).print("[MSG]:char: a");
+        verify(printer).print("[MSG]:reference: " + obj);
+        verify(printer).print("[MSG]:primitive: 30");
     }
 
     @Test
-    public void shouldDifferentStringSummingInOneSession(){
+    public void shouldDifferentStringSummingInOneSession() throws StateException,PrinterException{
         state = factory.setToStringState(state);
         state.toBuffer("stringToLog");
 
@@ -101,8 +104,8 @@ public class LoggerFactoryTest {
 
         state = factory.setToComState(state);
 
-        verify(printer).print("string: stringToLog (x2)");
-        verify(printer).print("string: anotherStringToLog (x3)");
+        verify(printer).print("[MSG]:string: stringToLog (x2)");
+        verify(printer).print("[MSG]:string: anotherStringToLog (x3)");
     }
 
     /*

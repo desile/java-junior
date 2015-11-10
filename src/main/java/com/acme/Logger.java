@@ -1,31 +1,60 @@
 package com.acme;
 
 
+import com.acme.exceptions.LoggerException;
+import com.acme.exceptions.PrinterException;
+import com.acme.exceptions.StateException;
 import com.acme.states.*;
-import com.jet.present.ConsolePrinter;
 import com.jet.present.Printable;
+import com.jet.present.Printers;
 
-//TODO: Ввести иерархию исключений.
 
 /**
  * Средство для логирования входных данных с обработкой в режиме реального времени.
  */
 public class Logger {
 
-    private  Printable printer = new ConsolePrinter();
+    private Printers printers;
 
-    private  LoggerStateFactory lsFactory = new LoggerStateFactory(printer);
-    private  LoggerState state = lsFactory.setToComState(null);
+    private  LoggerStateFactory lsFactory;
+    private  LoggerState state;
+
+    /**
+     * Метка сообщения для строки передаваемой серверу.
+     */
+    public static final String MSG = "[MSG]:";
+    /**
+     * Метка ошибки для строки передаваемой серверу.
+     */
+    public static final String ERR_MSG = "[ERROR]:";
 
 
-    //Сброс буферов и состояний
+    /**
+     * Инициализация логгера и первичного состояния фабрики состояний.
+     * @param printerArr Коллекция принтеров, которые будут производить печать.
+     */
+    public Logger(Printable... printerArr) throws LoggerException {
+        if(printerArr == null || printerArr.length == 0)
+            throw new LoggerException("There are no printers.");
+        printers = new Printers(printerArr);
+        lsFactory = new LoggerStateFactory(printers);
+        try {
+            state = lsFactory.setToComState(null);
+        } catch (StateException e) {
+            //IN THIS CASE THE ERROR CANNOT BE
+        }
+    }
 
     /**
      * Завершение текущего сеанса логирования.
      */
-    public  void close(){
-        state = lsFactory.setToComState(state);
-        printer.reset();
+    public  void close() throws LoggerException {
+        try {
+            state = lsFactory.setToComState(state);
+            printers.reset();
+        } catch (PrinterException | StateException e) {
+            throw new LoggerException("Problem with closing log session",e);
+        }
     }
 
     public LoggerStateFactory getStateFactory(){
@@ -46,8 +75,26 @@ public class Logger {
      * Если в ходе повторных вызовов возникает переполнение, то выводится текущая сумма перед переполнением, и суммирование начинается с 0.
      * @param message сообщение для вывода
      */
-    public  void log(int message) {
-        state = lsFactory.setToSumState(state);
+    public  void log(int message) throws LoggerException{
+        try {
+            state = lsFactory.setToSumState(state);
+            state.toBuffer(message);
+        }catch (StateException e){
+            throw new LoggerException("Problem with logging int",e);
+        }
+
+    }
+
+    /**
+     * Используется для вывода переданного аргумента.
+     * @param message сообщение для вывода
+     */
+    public  void log(boolean message) throws LoggerException {
+        try {
+            state = lsFactory.setToBoolState(state);
+        } catch (StateException e) {
+            throw new LoggerException("Problem with logging bool",e);
+        }
         state.toBuffer(message);
 
     }
@@ -56,18 +103,12 @@ public class Logger {
      * Используется для вывода переданного аргумента.
      * @param message сообщение для вывода
      */
-    public  void log(boolean message) {
-        state = lsFactory.setToBoolState(state);
-        state.toBuffer(message);
-
-    }
-
-    /**
-     * Используется для вывода переданного аргумента.
-     * @param message сообщение для вывода
-     */
-    public  void log(char message) {
-        state = lsFactory.setToCharState(state);
+    public  void log(char message) throws LoggerException{
+        try {
+            state = lsFactory.setToCharState(state);
+        } catch (StateException e) {
+            throw new LoggerException("Problem with logging char");
+        }
         state.toBuffer(message);
     }
 
@@ -77,24 +118,32 @@ public class Logger {
      */
 
 
-    public  void log(String message){
+    public  void log(String message) throws LoggerException{
         if(message == null){
-            throw new NullPointerException("String is null");
+            throw new LoggerException("String is null");
         }
         if(message.isEmpty()){
-            throw new IllegalArgumentException("String is empty");
+            throw new LoggerException("String is empty");
         }
-        state = lsFactory.setToStringState(state);
+        try {
+            state = lsFactory.setToStringState(state);
+            state.toBuffer(message);
+        } catch (StateException e) {
+            throw new LoggerException("Problem with logging string",e);
+        }
 
-        state.toBuffer(message);
     }
 
     /**
      * Используется для вывода переданного аргумента.
      * @param message сообщение для вывода
      */
-    public  void log(Object message) {
-        state = lsFactory.setToObjState(state);
+    public  void log(Object message) throws LoggerException {
+        try {
+            state = lsFactory.setToObjState(state);
+        } catch (StateException e) {
+            throw new LoggerException("Problem with logging object",e);
+        }
         state.toBuffer(message);
     }
 
@@ -102,7 +151,7 @@ public class Logger {
      * Используется для вывода суммы множества аргументов
         * @param message Множество аргументов
      */
-    public  void log(int... message){
+    public  void log(int... message) throws LoggerException{
         if(message == null){
             throw new NullPointerException("Array is null");
         }
@@ -118,7 +167,7 @@ public class Logger {
      * Используется для вывода множества аргументов
      * @param message Множество аргументов
      */
-    public  void log(int[][] message){
+    public  void log(int[][] message) throws LoggerException{
         if(message == null){
             throw new NullPointerException("Array is null");
         }
@@ -135,7 +184,7 @@ public class Logger {
      * Используется для вывода множества строчных аргументов с подсчетом повторов подряд
      * @param message Множество аргументов
      */
-    public  void log(String... message){
+    public  void log(String... message) throws LoggerException{
         if(message == null){
             throw new NullPointerException("Array is null");
         }
@@ -149,9 +198,9 @@ public class Logger {
 
     /**
      * Используется для вывода четырехмерного массива целых чисел.
-     * @param message
+     * @param message Четырехмерный массив
      */
-    public  void log(int[][][][] message){
+    public  void log(int[][][][] message) throws LoggerException{
         if(message == null){
             throw new NullPointerException("Array is null");
         }

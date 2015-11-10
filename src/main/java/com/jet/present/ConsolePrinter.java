@@ -1,5 +1,7 @@
 package com.jet.present;
 
+import com.acme.exceptions.PrinterException;
+
 /**
  * Класс для вывода в консоль.
  */
@@ -10,8 +12,8 @@ public class ConsolePrinter implements Printable {
      * @param msg Данные для вывода
      */
     @Override
-    public void print(String msg){
-        if(msg == null) throw new NullPointerException("String is null");
+    public void print(String msg) throws PrinterException{
+        if(msg == null) throw new PrinterException("String is null");
         System.out.println(msg);
     }
 

@@ -1,7 +1,10 @@
 package com.acme.states;
 
+import com.acme.Logger;
 import com.acme.decorator.LoggerDecorator;
-import com.jet.present.Printable;
+import com.acme.exceptions.PrinterException;
+import com.acme.exceptions.StateException;
+import com.jet.present.Printers;
 
 /**
  * Состояние для логирования Integer
@@ -11,10 +14,7 @@ public class LoggerSumState extends LoggerState {
     private int buffer;
 
     private boolean isIntegerOverflow(long number){
-        if(number > Integer.MAX_VALUE || number < Integer.MIN_VALUE) {
-            return true;
-        }
-        return false;
+        return number > Integer.MAX_VALUE || number < Integer.MIN_VALUE;
     }
 
     /**
@@ -22,7 +22,7 @@ public class LoggerSumState extends LoggerState {
      * @param printer Средство для вывода
      * @param decorator Средство для декорирования вывода
      */
-    public LoggerSumState(Printable printer, LoggerDecorator decorator){
+    public LoggerSumState(Printers printer, LoggerDecorator decorator){
         super(printer, decorator);
         buffer = 0;
     }
@@ -34,7 +34,7 @@ public class LoggerSumState extends LoggerState {
      * @param msg Число для добавления в буфер.
      */
     @Override
-    public void toBuffer(int msg){
+    public void toBuffer(int msg) throws StateException{
         if(isIntegerOverflow((long)msg+buffer)){
             printBuffer();
             buffer = msg;
@@ -47,8 +47,12 @@ public class LoggerSumState extends LoggerState {
      * Печатает буфер состояния и сбрасывает буфер.
      */
     @Override
-    public void printBuffer(){
-        printer.print(decorator.decorate("INT", ""+buffer));
+    public void printBuffer() throws StateException{
+        try {
+            printer.print(Logger.MSG + decorator.decorate("INT", ""+buffer));
+        } catch (PrinterException e) {
+            throw new StateException("Cant print sum buffer",e);
+        }
         buffer = 0;
     }
 
