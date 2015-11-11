@@ -1,7 +1,10 @@
 package com.jet.present;
 
+import com.acme.Logger;
 import com.acme.SysoutCaptureAndAssertionAbility;
+import com.acme.exceptions.LoggerException;
 import com.acme.exceptions.PrinterException;
+import com.acme.server.LogServer;
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -67,6 +70,17 @@ public class PrinterTest implements SysoutCaptureAndAssertionAbility{
     public void shouldServerPrinterThrowExceptionWhenTryingToConnectToIncorrectPort() throws PrinterException{
         int numberPortThatShouldBeFreeOrEmpty = 22222;
         ServerPrinter sp = new ServerPrinter(numberPortThatShouldBeFreeOrEmpty);
+    }
+
+    @Test
+    public void shouldServerWork() throws IOException, PrinterException, LoggerException, InterruptedException {
+        Printers p = mock(Printers.class);
+        LogServer serv = new LogServer(50210,p);
+        serv.start();
+        Thread.sleep(2000);
+        Logger l = new Logger(new ServerPrinter(50210));
+        l.log(true);
+        l.close();
     }
 
 

@@ -3,6 +3,7 @@ package com.acme.unit;
 import com.acme.exceptions.PrinterException;
 import com.acme.server.ServerMessageBuffer;
 import com.jet.present.ConsolePrinter;
+import com.jet.present.Printers;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
@@ -46,7 +47,7 @@ public class ServerBufferTest {
             if(i%2 == 0) smb.add("[ERROR]:Test message");
             else smb.add("[MSG]:Test message");
         }
-        ConsolePrinter p = mock(ConsolePrinter.class);
+        Printers p = mock(Printers.class);
         smb.flush(p);
         InOrder order = inOrder(p);
         order.verify(p,times(3)).print("[ERROR]:Test message");

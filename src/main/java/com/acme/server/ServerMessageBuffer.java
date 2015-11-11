@@ -2,6 +2,7 @@ package com.acme.server;
 
 import com.acme.exceptions.PrinterException;
 import com.jet.present.Printable;
+import com.jet.present.Printers;
 
 import java.util.*;
 
@@ -37,7 +38,7 @@ public class ServerMessageBuffer {
      * Очистка и печать буфера.
      * @param printer Средство для печати.
      */
-    public void flush(Printable printer) throws PrinterException{
+    public void flush(Printers printer) throws PrinterException{
         sortErrors();
         for(String s : buffer){
             printer.print(s);
